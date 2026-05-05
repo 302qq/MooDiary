@@ -2,11 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const mockDiaries = [
-  { id: 1, title: "오늘은 기쁜 하루였다...", date: "2026-04-14" },
-  { id: 2, title: "오늘은 슬픈 하루였다...", date: "2026-04-13" },
-  { id: 3, title: "오늘은 힘든 하루였다...", date: "2026-05-05" },
-  { id: 4, title: "오늘은 힘든 하루였다...", date: "2026-05-06" },
-  { id: 5, title: "오늘은 힘든 하루였다...", date: "2026-05-07" },
+  { id: 1, title: "오늘은 기쁜 하루였다...", date: "2026-05-05" },
+  { id: 2, title: "오늘은 슬픈 하루였다...", date: "2026-05-06" },
 ];
 
 function RecentDiaryBox() {
