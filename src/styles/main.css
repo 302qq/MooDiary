@@ -281,7 +281,7 @@ body {
 /* ===== Hero ===== */
 .hero-box {
   width: 100%;
-  max-width: 900px;   /* 🔥 이게 핵심 */
+  max-width: 900px;   /*  이게 핵심 */
   height: 145px;
 
   border: 1px solid #333;
@@ -308,7 +308,7 @@ body {
 /* ===== Home Middle ===== */
 .home-middle {
   width: 100%;
-  max-width: 900px;   /* 🔥 맞춰줘야 함 */
+  max-width: 900px;   /*  맞춰줘야 함 */
   display: grid;
   grid-template-columns: 1fr 380px;
   column-gap: 44px;
@@ -318,7 +318,7 @@ body {
 
 .yesterday-record {
   width: 100%;
-  max-width: 900px;   /* 🔥 동일하게 */
+  max-width: 900px;   /*  동일하게 */
 }
 
 /* ===== Recent Diary ===== */

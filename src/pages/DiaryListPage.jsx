@@ -20,18 +20,18 @@ function DiaryListPage() {
   const params = new URLSearchParams(location.search);
   const selectedDate = params.get("date");
 
-  /* 🔥 localStorage 불러오기 */
+  /*  localStorage 불러오기 */
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("diaries")) || [];
     setDiaries([...saved, ...mockDiaries]);
   }, []);
 
-  /* 🔥 날짜 필터 */
+  /*  날짜 필터 */
   const filteredDiaries = selectedDate
     ? diaries.filter((d) => d.date === selectedDate)
     : diaries;
 
-  /* 🔥 자동 선택 */
+  /*  자동 선택 */
   useEffect(() => {
     if (filteredDiaries.length > 0) {
       setSelectedDiary(filteredDiaries[0]);
@@ -40,14 +40,14 @@ function DiaryListPage() {
     }
   }, [selectedDate, diaries]);
 
-  /* 🔥 삭제 함수 */
+  /*  삭제 함수 */
   const handleDelete = () => {
     if (!selectedDiary) return;
 
     const confirmDelete = window.confirm("이 일기를 삭제할까요?");
     if (!confirmDelete) return;
 
-    // 👉 localStorage에 있는 데이터만 삭제
+    //  localStorage에 있는 데이터만 삭제
     const saved = JSON.parse(localStorage.getItem("diaries")) || [];
 
     const updated = saved.filter((d) => d.id !== selectedDiary.id);
@@ -55,7 +55,7 @@ function DiaryListPage() {
     localStorage.setItem("diaries", JSON.stringify(updated));
     window.dispatchEvent(new Event("diariesUpdated"));
 
-    // 👉 화면 갱신
+    //  화면 갱신
     setDiaries([...updated, ...mockDiaries]);
     setSelectedDiary(null);
   };
@@ -114,7 +114,7 @@ function DiaryListPage() {
                 </div>
               </div>
 
-              {/* 🔥 삭제 버튼 */}
+              {/*  삭제 버튼 */}
               <button
                 onClick={handleDelete}
                 style={{
