@@ -9,30 +9,53 @@ function WriteDiaryPage() {
   const [content, setContent] = useState("");
   const [aiComment, setAiComment] = useState("");
 
-  const handlePublish = () => {
+  const handlePublish = async () => {
     if (!title.trim() || !content.trim()) {
       alert("제목과 내용을 입력해주세요.");
       return;
     }
 
-    const newDiary = {
-      id: Date.now(),
-      date: selectedDate,
-      title,
-      content,
-      ai: "오늘 하루도 잘 견뎌냈어요. 잠깐 쉬어가도 괜찮아요.",
-    };
+    try {
+      const response = await fetch("http://localhost:8080/post", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: title,
+          content: content,
+        }),
+      });
 
-    const savedDiaries = JSON.parse(localStorage.getItem("diaries")) || [];
-    const updatedDiaries = [newDiary, ...savedDiaries];
+      if (!response.ok) {
+        throw new Error("게시글 저장 API 요청 실패");
+      }
 
-    localStorage.setItem("diaries", JSON.stringify(updatedDiaries));
-window.dispatchEvent(new Event("diariesUpdated"));
+      const postId = await response.text();
+      console.log("생성된 게시글 ID:", postId);
 
-setAiComment(newDiary.ai);
+      const newDiary = {
+        id: postId || Date.now(),
+        date: selectedDate,
+        title,
+        content,
+        ai: "오늘 하루도 잘 견뎌냈어요. 잠깐 쉬어가도 괜찮아요.",
+      };
 
-alert("일기가 저장되었습니다.");
-navigate("/diaries");
+      const savedDiaries = JSON.parse(localStorage.getItem("diaries")) || [];
+      const updatedDiaries = [newDiary, ...savedDiaries];
+
+      localStorage.setItem("diaries", JSON.stringify(updatedDiaries));
+      window.dispatchEvent(new Event("diariesUpdated"));
+
+      setAiComment(newDiary.ai);
+
+      alert("일기가 저장되었습니다.");
+      navigate("/diaries");
+    } catch (error) {
+      console.error("게시글 저장 실패:", error);
+      alert("서버 저장에 실패했습니다. 백엔드 서버가 켜져 있는지 확인해주세요.");
+    }
   };
 
   return (
