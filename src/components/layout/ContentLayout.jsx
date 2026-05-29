@@ -6,6 +6,8 @@ import WriteDiaryPage from "../../pages/WriteDiaryPage";
 import DiaryListPage from "../../pages/DiaryListPage";
 import StampCalendarPage from "../../pages/StampCalendarPage";
 import DiaryDetailPage from "../../pages/DiaryDetailPage";
+import SignupPage from "../../pages/SignupPage";
+import LoginPage from "../../pages/LoginPage";
 
 function ContentLayout() {
   return (
@@ -19,6 +21,9 @@ function ContentLayout() {
           <Route path="/diaries" element={<DiaryListPage />} />
           <Route path="/stamps" element={<StampCalendarPage />} />
           <Route path="/diaries/:id" element={<DiaryDetailPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/calendar" element={<StampCalendarPage />} />
         </Routes>
       </div>
     </div>

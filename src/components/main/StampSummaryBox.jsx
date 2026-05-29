@@ -9,7 +9,7 @@ const stamps = [
 function StampSummaryBox() {
   return (
     <section className="stamp-box">
-      <h3>이번 달 감정스탬프 요약</h3>
+      <h3>이번 달 감정스탬프 요약(ai 분석 준비중)</h3>
 
       <div className="stamp-row">
         {stamps.map((stamp) => (

@@ -11,7 +11,7 @@ const week = [
 function WeeklyStampBox() {
   return (
     <section className="weekly-box">
-      <h3>이번 주 감정스탬프</h3>
+      <h3>이번 주 감정스탬프(ai 분석 준비중)</h3>
 
       <div className="week-row week-labels">
         {week.map((item) => (

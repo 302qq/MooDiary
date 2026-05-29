@@ -10,26 +10,50 @@ function MiniCalendar() {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
-  const loadDiaries = () => {
-    const savedDiaries = JSON.parse(localStorage.getItem("diaries")) || [];
+  const fetchCalendar = async () => {
+    const token = localStorage.getItem("accessToken");
 
-    const map = {};
-    savedDiaries.forEach((diary) => {
-      map[diary.date] = diary.stamp || "📝";
-    });
+    if (!token) return;
 
-    setDiaryMap(map);
+    try {
+      const response = await fetch(
+        `http://15.165.95.129:8080/calendar?year=${year}&month=${month + 1}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("미니 캘린더 조회 상태코드:", response.status);
+
+      if (!response.ok) {
+        throw new Error("미니 캘린더 조회 실패");
+      }
+
+      const data = await response.json();
+      console.log("미니 캘린더 응답:", data);
+
+      const map = {};
+
+      data.forEach((item) => {
+        map[item.date] = {
+          emoji: item.emoji || "📝",
+          postId: item.postId,
+        };
+      });
+
+      setDiaryMap(map);
+    } catch (error) {
+      console.error("미니 캘린더 조회 실패:", error);
+      setDiaryMap({});
+    }
   };
 
   useEffect(() => {
-    loadDiaries();
-
-    window.addEventListener("diariesUpdated", loadDiaries);
-
-    return () => {
-      window.removeEventListener("diariesUpdated", loadDiaries);
-    };
-  }, []);
+    fetchCalendar();
+  }, [year, month]);
 
   const getCalendarDays = () => {
     const firstDay = new Date(year, month, 1).getDay();
@@ -56,6 +80,20 @@ function MiniCalendar() {
     setCurrentDate(new Date(year, month + 1, 1));
   };
 
+  const handleDateClick = (day) => {
+    if (!day) return;
+
+    const date = `${year}-${String(month + 1).padStart(2, "0")}-${String(
+      day
+    ).padStart(2, "0")}`;
+
+    const diary = diaryMap[date];
+
+    if (!diary) return;
+
+    navigate(`/diaries?postId=${diary.postId}`);
+  };
+
   return (
     <div className="mini-calendar">
       <div className="mini-calendar-title">스탬프 달력</div>
@@ -74,7 +112,7 @@ function MiniCalendar() {
         </button>
       </div>
 
-      <div className="mini-calendar-grid" onClick={() => navigate("/stamps")}>
+      <div className="mini-calendar-grid">
         {["일", "월", "화", "수", "목", "금", "토"].map((day) => (
           <div key={day} className="mini-calendar-label">
             {day}
@@ -83,13 +121,23 @@ function MiniCalendar() {
 
         {getCalendarDays().map((day, index) => {
           const date = day
-            ? `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
+            ? `${year}-${String(month + 1).padStart(2, "0")}-${String(
+                day
+              ).padStart(2, "0")}`
             : "";
 
-          const stamp = diaryMap[date];
+          const diary = diaryMap[date];
+          const stamp = diary?.emoji;
 
           return (
-            <div key={index} className="mini-calendar-cell">
+            <div
+              key={index}
+              className={`mini-calendar-cell ${stamp ? "active" : ""}`}
+              onClick={() => handleDateClick(day)}
+              style={{
+                cursor: stamp ? "pointer" : "default",
+              }}
+            >
               {day && (
                 <>
                   <div className="mini-date">{day}</div>

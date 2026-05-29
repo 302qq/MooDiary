@@ -15,11 +15,20 @@ function WriteDiaryPage() {
       return;
     }
 
+    const token = localStorage.getItem("accessToken");
+
+    if (!token) {
+      alert("로그인이 필요합니다.");
+      navigate("/login");
+      return;
+    }
+
     try {
-      const response = await fetch("http://localhost:8080/post", {
+      const response = await fetch("http://15.165.95.129:8080/post", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           title: title,
@@ -27,7 +36,11 @@ function WriteDiaryPage() {
         }),
       });
 
+      console.log("게시글 저장 상태코드:", response.status);
+
       if (!response.ok) {
+        const errorText = await response.text();
+        console.log("게시글 저장 실패 응답:", errorText);
         throw new Error("게시글 저장 API 요청 실패");
       }
 
@@ -54,7 +67,7 @@ function WriteDiaryPage() {
       navigate("/diaries");
     } catch (error) {
       console.error("게시글 저장 실패:", error);
-      alert("서버 저장에 실패했습니다. 백엔드 서버가 켜져 있는지 확인해주세요.");
+      alert("서버 저장에 실패했습니다. 로그인 상태 또는 백엔드 서버를 확인해주세요.");
     }
   };
 

@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const mockDiaries = [
-  { id: 1, date: "2026-05-05", stamp: "😢" },
-];
-
 function StampCalendarPage() {
   const navigate = useNavigate();
 
@@ -12,35 +8,74 @@ function StampCalendarPage() {
   const [diaryMap, setDiaryMap] = useState({});
 
   const year = currentDate.getFullYear();
-  const month = currentDate.getMonth(); // 0부터 시작: 4 = 5월
+  const month = currentDate.getMonth();
 
   useEffect(() => {
-    const savedDiaries = JSON.parse(localStorage.getItem("diaries")) || [];
-    const allDiaries = [...savedDiaries, ...mockDiaries];
+    const fetchCalendar = async () => {
+      const token = localStorage.getItem("accessToken");
 
-    const map = {};
-    allDiaries.forEach((diary) => {
-      map[diary.date] = diary.stamp || "📝";
-    });
+      if (!token) {
+        alert("로그인이 필요합니다.");
+        navigate("/login");
+        return;
+      }
 
-    setDiaryMap(map);
-  }, []);
+      try {
+        const response = await fetch(
+          `http://15.165.95.129:8080/calendar?year=${year}&month=${month + 1}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
- const getCalendarDays = () => {
-  const firstDay = new Date(year, month, 1).getDay();
-  const lastDate = new Date(year, month + 1, 0).getDate();
+        console.log("캘린더 조회 상태코드:", response.status);
 
-  const blanks = Array(firstDay).fill("");
-  const days = Array.from({ length: lastDate }, (_, i) => i + 1);
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.log("캘린더 조회 실패 응답:", errorText);
+          throw new Error("캘린더 조회 실패");
+        }
 
-  const calendarDays = [...blanks, ...days];
+        const data = await response.json();
+        console.log("캘린더 조회 응답:", data);
 
-  while (calendarDays.length < 42) {
-    calendarDays.push("");
-  }
+        const map = {};
 
-  return calendarDays;
-};
+        data.forEach((item) => {
+          map[item.date] = {
+            emoji: item.emoji || "📝",
+            postId: item.postId,
+          };
+        });
+
+        setDiaryMap(map);
+      } catch (error) {
+        console.error("캘린더 조회 실패:", error);
+        setDiaryMap({});
+      }
+    };
+
+    fetchCalendar();
+  }, [year, month, navigate]);
+
+  const getCalendarDays = () => {
+    const firstDay = new Date(year, month, 1).getDay();
+    const lastDate = new Date(year, month + 1, 0).getDate();
+
+    const blanks = Array(firstDay).fill("");
+    const days = Array.from({ length: lastDate }, (_, i) => i + 1);
+
+    const calendarDays = [...blanks, ...days];
+
+    while (calendarDays.length < 42) {
+      calendarDays.push("");
+    }
+
+    return calendarDays;
+  };
 
   const handlePrevMonth = () => {
     setCurrentDate(new Date(year, month - 1, 1));
@@ -57,7 +92,9 @@ function StampCalendarPage() {
       day
     ).padStart(2, "0")}`;
 
-    if (diaryMap[date]) {
+    const diary = diaryMap[date];
+
+    if (diary) {
       navigate(`/diaries?date=${date}`);
     }
   };
@@ -97,7 +134,8 @@ function StampCalendarPage() {
                 ).padStart(2, "0")}`
               : "";
 
-            const stamp = diaryMap[date];
+            const diary = diaryMap[date];
+            const stamp = diary?.emoji;
 
             return (
               <div
