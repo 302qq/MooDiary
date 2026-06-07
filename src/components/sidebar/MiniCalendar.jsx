@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const DAY_LABELS = ["S", "M", "T", "W", "T", "F", "S"];
+
 function MiniCalendar() {
   const navigate = useNavigate();
 
@@ -70,16 +72,6 @@ function MiniCalendar() {
     return calendarDays;
   };
 
-  const handlePrevMonth = (e) => {
-    e.stopPropagation();
-    setCurrentDate(new Date(year, month - 1, 1));
-  };
-
-  const handleNextMonth = (e) => {
-    e.stopPropagation();
-    setCurrentDate(new Date(year, month + 1, 1));
-  };
-
   const handleDateClick = (day) => {
     if (!day) return;
 
@@ -96,24 +88,31 @@ function MiniCalendar() {
 
   return (
     <div className="mini-calendar">
-      <div className="mini-calendar-title">스탬프 달력</div>
+      <div className="mini-calendar-head">
+        <span className="mini-calendar-badge">5월</span>
+        <div className="mini-calendar-month">
+          <button
+            type="button"
+            onClick={() => setCurrentDate(new Date(year, month - 1, 1))}
+          >
+            ‹
+          </button>
 
-      <div className="mini-calendar-month">
-        <button type="button" onClick={handlePrevMonth}>
-          {"<"}
-        </button>
+          <span>
+            {year}.{String(month + 1).padStart(2, "0")}
+          </span>
 
-        <span>
-          {year}년 {month + 1}월
-        </span>
-
-        <button type="button" onClick={handleNextMonth}>
-          {">"}
-        </button>
+          <button
+            type="button"
+            onClick={() => setCurrentDate(new Date(year, month + 1, 1))}
+          >
+            ›
+          </button>
+        </div>
       </div>
 
       <div className="mini-calendar-grid">
-        {["일", "월", "화", "수", "목", "금", "토"].map((day) => (
+        {DAY_LABELS.map((day) => (
           <div key={day} className="mini-calendar-label">
             {day}
           </div>
@@ -130,13 +129,12 @@ function MiniCalendar() {
           const stamp = diary?.emoji;
 
           return (
-            <div
+            <button
               key={index}
+              type="button"
               className={`mini-calendar-cell ${stamp ? "active" : ""}`}
               onClick={() => handleDateClick(day)}
-              style={{
-                cursor: stamp ? "pointer" : "default",
-              }}
+              disabled={!stamp}
             >
               {day && (
                 <>
@@ -144,7 +142,7 @@ function MiniCalendar() {
                   <div className="mini-stamp">{stamp}</div>
                 </>
               )}
-            </div>
+            </button>
           );
         })}
       </div>

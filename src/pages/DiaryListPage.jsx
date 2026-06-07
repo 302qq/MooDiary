@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
+const mockDiaries = [];
 
 function DiaryListPage() {
   const [diaries, setDiaries] = useState([]);
@@ -47,7 +48,7 @@ function DiaryListPage() {
         title: post.title,
         date: post.createdAt ? post.createdAt.slice(0, 10) : "날짜 없음",
         content: post.content,
-        ai: post.ai || "AI의 한 마디...",
+        ai: post.ai || "AI가 건넨 한마디...",
         isMock: false,
       }));
 
@@ -83,7 +84,7 @@ function DiaryListPage() {
     } else {
       setSelectedDiary(null);
     }
-  }, [selectedDate, selectedPostId, diaries]);
+  }, [selectedDate, selectedPostId, diaries, filteredDiaries]);
 
   const startEdit = () => {
     if (!selectedDiary) return;
@@ -220,97 +221,135 @@ function DiaryListPage() {
 
   return (
     <div className="diary-view-page">
-      <div className="diary-view-title">
-        일기 목록({filteredDiaries.length}편)
-      </div>
+      <div className="diary-view-title">일기 보기</div>
 
       <div className="diary-view-layout">
-        <div className="diary-view-list">
-          {filteredDiaries.length === 0 ? (
-            <div className="diary-view-empty">해당 날짜의 일기가 없습니다.</div>
-          ) : (
-            filteredDiaries.map((diary) => (
-              <div
-                key={diary.id}
-                className={`diary-view-item ${
-                  selectedDiary?.id === diary.id ? "selected" : ""
-                }`}
-                onClick={() => {
-                  setSelectedDiary(diary);
-                  setIsEditing(false);
-                }}
-              >
-                <p>{diary.title}</p>
-                <span>{diary.date}</span>
-              </div>
-            ))
-          )}
-        </div>
+        <section className="diary-view-list-panel">
+          <div className="diary-view-list-header">
+            <div>
+              <h2>일기 목록</h2>
+              <p>마음을 적어둔 하루를 다시 펼쳐보세요.</p>
+            </div>
+            <span className="diary-view-count">{filteredDiaries.length}편</span>
+          </div>
 
-        <div className="diary-view-detail">
+          <div className="diary-view-list">
+            {filteredDiaries.length === 0 ? (
+              <div className="diary-view-empty">
+                해당 날짜의 일기가 없습니다.
+              </div>
+            ) : (
+              filteredDiaries.map((diary) => (
+                <button
+                  key={diary.id}
+                  type="button"
+                  className={
+                    "diary-view-item" +
+                    (selectedDiary?.id === diary.id ? " selected" : "")
+                  }
+                  onClick={() => {
+                    setSelectedDiary(diary);
+                    setIsEditing(false);
+                  }}
+                >
+                  <strong>{diary.title}</strong>
+                  <span>{diary.date}</span>
+                </button>
+              ))
+            )}
+          </div>
+        </section>
+
+        <section className="diary-view-detail">
           {!selectedDiary ? (
-            <p className="empty-detail-text">왼쪽에서 일기를 선택해주세요</p>
+            <p className="empty-detail-text">왼쪽에서 일기를 선택해주세요.</p>
           ) : (
             <div className="detail-inner">
-              <div className="detail-date">{selectedDiary.date}</div>
+              <div className="detail-meta-row">
+                <div className="detail-date">{selectedDiary.date}</div>
+
+                <div className="detail-actions">
+                  {isEditing ? (
+                    <>
+                      <button
+                        type="button"
+                        className="detail-action primary"
+                        onClick={handleUpdate}
+                      >
+                        저장
+                      </button>
+                      <button
+                        type="button"
+                        className="detail-action secondary"
+                        onClick={cancelEdit}
+                      >
+                        취소
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        type="button"
+                        className="detail-action primary"
+                        onClick={startEdit}
+                      >
+                        수정
+                      </button>
+                      <button
+                        type="button"
+                        className="detail-action danger"
+                        onClick={handleDelete}
+                      >
+                        삭제
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
 
               {isEditing ? (
-                <>
+                <div className="detail-edit-form">
                   <input
+                    className="detail-edit-title"
                     value={editTitle}
                     onChange={(e) => setEditTitle(e.target.value)}
-                    style={{
-                      width: "100%",
-                      padding: "8px",
-                      marginBottom: "10px",
-                    }}
                   />
 
                   <textarea
+                    className="detail-edit-content"
                     value={editContent}
                     onChange={(e) => setEditContent(e.target.value)}
-                    style={{
-                      width: "100%",
-                      minHeight: "160px",
-                      padding: "8px",
-                    }}
                   />
-
-                  <button onClick={handleUpdate}>저장</button>
-                  <button onClick={cancelEdit}>취소</button>
-                </>
+                </div>
               ) : (
                 <>
                   <div className="detail-title">{selectedDiary.title}</div>
 
-                  <div className="detail-content">{selectedDiary.content}</div>
+                  <section className="detail-panel detail-content-panel">
+                    <div className="detail-panel-header">
+                      <span className="section-icon">✎</span>
+                      <h3>일기 내용</h3>
+                    </div>
+                    <div className="detail-content">
+                      {selectedDiary.content}
+                    </div>
+                  </section>
 
-                  <div className="detail-ai-box">
-                    <div className="ai-avatar">👻</div>
-                    <div className="ai-comment-box">{selectedDiary.ai}</div>
-                  </div>
-
-                  <button onClick={startEdit}>수정</button>
-
-                  <button
-                    onClick={handleDelete}
-                    style={{
-                      marginTop: "12px",
-                      marginLeft: "8px",
-                      padding: "8px 12px",
-                      background: "#e81123",
-                      color: "white",
-                      border: "none",
-                      cursor: "pointer",
-                    }}
-                  >
-                    삭제
-                  </button>
+                  <section className="detail-panel detail-ai-section">
+                    <div className="detail-panel-header">
+                      <span className="section-icon">💌</span>
+                      <h3>AI 한마디</h3>
+                    </div>
+                    <div className="detail-ai-box">
+                      <div className="ai-avatar">💗</div>
+                      <div className="ai-comment-box">{selectedDiary.ai}</div>
+                    </div>
+                  </section>
                 </>
               )}
             </div>
           )}
-        </div>
+        </section>
       </div>
     </div>
   );

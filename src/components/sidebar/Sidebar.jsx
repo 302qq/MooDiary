@@ -7,25 +7,53 @@ function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="profile-card">
-        <div className="profile-image">👤</div>
-        <p className="profile-name">테스트 사용자</p>
+        <div className="profile-frame">
+          <div className="profile-image" aria-hidden="true">
+            <div className="profile-portrait">
+              <div className="profile-hair" />
+              <div className="profile-face">
+                <span className="profile-eye left" />
+                <span className="profile-eye right" />
+                <span className="profile-mouth" />
+              </div>
+              <div className="profile-neck" />
+              <div className="profile-shirt" />
+            </div>
+          </div>
+        </div>
+        <p className="profile-name">MooDiary 사용자</p>
+        <span className="profile-quote">오늘도 포근한 하루가 되기를</span>
       </div>
 
-      <nav className="sidebar-menu">
-        <div className="sidebar-menu-item" onClick={() => navigate("/write")}>
+            <nav className="sidebar-menu">
+        <button
+          type="button"
+          className="sidebar-menu-item"
+          onClick={() => navigate("/write")}
+        >
+          <span className="sidebar-menu-icon">🖊</span>
           일기 쓰기
-        </div>
+        </button>
 
-        <div className="sidebar-menu-item" onClick={() => navigate("/diaries")}>
+        <button
+          type="button"
+          className="sidebar-menu-item"
+          onClick={() => navigate("/diaries")}
+        >
+          <span className="sidebar-menu-icon">📂</span>
           일기 보기
-        </div>
+        </button>
 
-        <div className="sidebar-menu-item" onClick={() => navigate("/stamps")}>
+        <button
+          type="button"
+          className="sidebar-menu-item"
+          onClick={() => navigate("/stamps")}
+        >
+          <span className="sidebar-menu-icon">📅</span>
           스탬프 달력
-        </div>
+        </button>
       </nav>
 
-      {/* 🔥 여기만 바뀜 */}
       <MiniCalendar />
     </aside>
   );

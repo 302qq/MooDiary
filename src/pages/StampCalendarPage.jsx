@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function StampCalendarPage() {
@@ -46,7 +46,7 @@ function StampCalendarPage() {
 
         data.forEach((item) => {
           map[item.date] = {
-            emoji: item.emoji || "📝",
+            emoji: item.emoji || "🫧",
             postId: item.postId,
           };
         });
@@ -106,52 +106,77 @@ function StampCalendarPage() {
       <div className="calendar-title">스탬프 달력</div>
 
       <div className="calendar-wrapper">
-        <div className="calendar-header">
-          <button type="button" onClick={handlePrevMonth}>
-            {"<"}
-          </button>
-
-          <span>
-            {year}년 {month + 1}월
-          </span>
-
-          <button type="button" onClick={handleNextMonth}>
-            {">"}
-          </button>
-        </div>
-
-        <div className="calendar-grid">
-          {["일", "월", "화", "수", "목", "금", "토"].map((d) => (
-            <div key={d} className="calendar-day-label">
-              {d}
+        <div className="calendar-shell">
+          <div className="calendar-headline">
+            <div>
+              <h2>이번 달 감정 스탬프</h2>
+              <p>스탬프가 있는 날짜를 눌러 해당 일기를 확인해보세요.</p>
             </div>
-          ))}
+          </div>
 
-          {calendarDays.map((day, index) => {
-            const date = day
-              ? `${year}-${String(month + 1).padStart(2, "0")}-${String(
-                  day
-                ).padStart(2, "0")}`
-              : "";
+          <div className="calendar-header">
+            <button type="button" className="calendar-nav-button" onClick={handlePrevMonth}>
+              ‹
+            </button>
 
-            const diary = diaryMap[date];
-            const stamp = diary?.emoji;
+            <span className="calendar-month-label">
+              {year}년 {month + 1}월
+            </span>
 
-            return (
+            <button type="button" className="calendar-nav-button" onClick={handleNextMonth}>
+              ›
+            </button>
+          </div>
+
+          <div className="calendar-grid">
+            {["일", "월", "화", "수", "목", "금", "토"].map((d, idx) => (
               <div
-                key={index}
-                className={`calendar-cell ${stamp ? "active" : ""}`}
-                onClick={() => handleClick(day)}
+                key={d}
+                className={`calendar-day-label ${idx === 0 ? "sun" : ""} ${
+                  idx === 6 ? "sat" : ""
+                }`}
               >
-                {day && (
-                  <>
-                    <div className="date">{day}</div>
-                    <div className="emoji">{stamp}</div>
-                  </>
-                )}
+                {d}
               </div>
-            );
-          })}
+            ))}
+
+            {calendarDays.map((day, index) => {
+              const date = day
+                ? `${year}-${String(month + 1).padStart(2, "0")}-${String(
+                    day
+                  ).padStart(2, "0")}`
+                : "";
+
+              const diary = diaryMap[date];
+              const stamp = diary?.emoji;
+              const isActive = Boolean(stamp);
+              const dayOfWeek = index % 7;
+
+              return (
+                <button
+                  key={index}
+                  type="button"
+                  className={`calendar-cell ${
+                    isActive ? "active has-stamp" : "inactive"
+                  } ${day ? "has-day" : "empty"} ${dayOfWeek === 0 ? "sun" : ""} ${
+                    dayOfWeek === 6 ? "sat" : ""
+                  }`}
+                  onClick={() => handleClick(day)}
+                  disabled={!day || !isActive}
+                >
+                  {day && (
+                    <>
+                      <div className="date">{day}</div>
+                      <div className="emoji">{stamp || "·"}</div>
+                      <div className="calendar-cell-note">
+                        {isActive ? "일기 보기" : "기록 없음"}
+                      </div>
+                    </>
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function WriteDiaryPage() {
@@ -36,12 +36,12 @@ function WriteDiaryPage() {
         }),
       });
 
-      console.log("게시글 저장 상태코드:", response.status);
+      console.log("게시글 등록 상태코드:", response.status);
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.log("게시글 저장 실패 응답:", errorText);
-        throw new Error("게시글 저장 API 요청 실패");
+        console.log("게시글 등록 실패 응답:", errorText);
+        throw new Error("게시글 등록 API 요청 실패");
       }
 
       const postId = await response.text();
@@ -52,7 +52,7 @@ function WriteDiaryPage() {
         date: selectedDate,
         title,
         content,
-        ai: "오늘 하루도 잘 견뎌냈어요. 잠깐 쉬어가도 괜찮아요.",
+        ai: "오늘 하루도 정말 수고했어요. 작은 위로가 되어주길 바라요.",
       };
 
       const savedDiaries = JSON.parse(localStorage.getItem("diaries")) || [];
@@ -63,11 +63,11 @@ function WriteDiaryPage() {
 
       setAiComment(newDiary.ai);
 
-      alert("일기가 저장되었습니다.");
+      alert("일기가 등록되었습니다.");
       navigate("/diaries");
     } catch (error) {
-      console.error("게시글 저장 실패:", error);
-      alert("서버 저장에 실패했습니다. 로그인 상태 또는 백엔드 서버를 확인해주세요.");
+      console.error("게시글 등록 실패:", error);
+      alert("서버 등록에 실패했습니다. 로그 상태 또는 백엔드 서버를 확인해주세요.");
     }
   };
 
@@ -83,6 +83,8 @@ function WriteDiaryPage() {
           onChange={(e) => setSelectedDate(e.target.value)}
         />
       </div>
+
+
 
       <input
         className="write-input-title"
@@ -106,13 +108,14 @@ function WriteDiaryPage() {
       </div>
 
       <div className="ai-comment-area">
-        <div className="ai-avatar">👻</div>
-        <div className="ai-comment-box">
-          {aiComment || "AI의 한 마디..."}
-        </div>
+        <div className="ai-avatar">💗</div>
+        <div className="ai-comment-box">{aiComment || "AI 한마디"}</div>
       </div>
     </div>
   );
 }
 
 export default WriteDiaryPage;
+
+
+
