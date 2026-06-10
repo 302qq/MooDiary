@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
 
 function SignupPage() {
@@ -7,20 +8,17 @@ function SignupPage() {
 
   const handleSignup = async () => {
     try {
-      const response = await fetch(
-        "/api/auth/signup",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            password,
-            nickname,
-          }),
-        }
-      );
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          nickname,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error("회원가입 실패");
@@ -34,41 +32,63 @@ function SignupPage() {
   };
 
   return (
-    <div style={{ padding: "30px" }}>
-      <h1>회원가입</h1>
+    <section className="auth-page">
+      <div className="auth-card signup-card">
+        <p className="auth-kicker">MOODIARY</p>
+        <h1 className="auth-title">회원가입</h1>
 
-      <input
-        type="email"
-        placeholder="이메일"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        <div className="auth-avatar" aria-hidden="true">
+          <span className="auth-avatar-face">♡</span>
+        </div>
 
-      <br />
-      <br />
+        <form
+          className="auth-form"
+          onSubmit={(event) => {
+            event.preventDefault();
+            handleSignup();
+          }}
+        >
+          <label className="auth-field">
+            <span>닉네임</span>
+            <input
+              type="text"
+              placeholder="닉네임을 입력해주세요"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+            />
+          </label>
 
-      <input
-        type="password"
-        placeholder="비밀번호"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+          <label className="auth-field">
+            <span>이메일</span>
+            <input
+              type="email"
+              placeholder="이메일을 입력해주세요"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </label>
 
-      <br />
-      <br />
+          <label className="auth-field">
+            <span>비밀번호</span>
+            <input
+              type="password"
+              placeholder="비밀번호를 입력해주세요"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
 
-      <input
-        type="text"
-        placeholder="닉네임"
-        value={nickname}
-        onChange={(e) => setNickname(e.target.value)}
-      />
+          <button className="auth-submit" type="submit">
+            가입하기
+          </button>
+        </form>
 
-      <br />
-      <br />
-
-      <button onClick={handleSignup}>회원가입</button>
-    </div>
+        <div className="auth-links auth-links-center">
+          <span>이미 계정이 있나요?</span>
+          <Link to="/login">로그인</Link>
+        </div>
+      </div>
+    </section>
   );
 }
 

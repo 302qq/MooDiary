@@ -1,5 +1,5 @@
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -8,66 +8,86 @@ function LoginPage() {
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-  try {
-    const response = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
 
-    const data = await response.json();
-    console.log("로그인 상태코드:", response.status);
-    console.log("로그인 응답:", data);
+      const data = await response.json();
+      console.log("로그인 상태코드:", response.status);
+      console.log("로그인 응답:", data);
 
-    if (!response.ok) {
-      alert("로그인 실패");
-      return;
+      if (!response.ok) {
+        alert("로그인 실패");
+        return;
+      }
+
+      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("userId", data.userId);
+
+      alert("로그인 성공!");
+      navigate("/");
+    } catch (error) {
+      console.error("로그인 에러:", error);
+      alert("로그인 중 오류 발생");
     }
-
-    localStorage.setItem("accessToken", data.accessToken);
-    localStorage.setItem("userId", data.userId);
-
-    alert("로그인 성공!");
-    navigate("/");
-  } catch (error) {
-    console.error("로그인 에러:", error);
-    alert("로그인 중 오류 발생");
-  }
-};
+  };
 
   return (
-    <div style={{ padding: "30px" }}>
-      <h1>로그인</h1>
+    <section className="auth-page">
+      <div className="auth-card">
+        <p className="auth-kicker">MOODIARY</p>
+        <h1 className="auth-title">로그인</h1>
 
-      <input
-        type="email"
-        placeholder="이메일"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        <div className="auth-avatar" aria-hidden="true">
+          <span className="auth-avatar-face">♡</span>
+        </div>
 
-      <br />
-      <br />
+        <form
+          className="auth-form"
+          onSubmit={(event) => {
+            event.preventDefault();
+            handleLogin();
+          }}
+        >
+          <label className="auth-field">
+            <span>이메일</span>
+            <input
+              type="email"
+              placeholder="이메일을 입력해주세요"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </label>
 
-      <input
-        type="password"
-        placeholder="비밀번호"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+          <label className="auth-field">
+            <span>비밀번호</span>
+            <input
+              type="password"
+              placeholder="비밀번호를 입력해주세요"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
 
-      <br />
-      <br />
+          <button className="auth-submit" type="submit">
+            로그인
+          </button>
+        </form>
 
-      <button type="button" onClick={handleLogin}>
-        로그인
-      </button>
-    </div>
+        <div className="auth-links">
+          <span className="auth-muted-link">아이디, 비밀번호 찾기</span>
+          <Link to="/signup">회원가입</Link>
+        </div>
+      </div>
+    </section>
   );
 }
 
