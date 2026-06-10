@@ -24,7 +24,7 @@ function WriteDiaryPage() {
     }
 
     try {
-      const response = await fetch("http://15.165.95.129:8080/post", {
+      const response = await fetch("/api/post", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
