@@ -1,10 +1,11 @@
 const stamps = [
-  { emoji: "😊", label: "가장 많은 감정", value: "기쁨 12회" },
-  { emoji: "🥰", label: "행복 지수", value: "85%" },
-  { emoji: "🥳", label: "가장 뿌듯한 감정", value: "뿌듯 8회" },
-  { emoji: "🥺", label: "위로가 필요한 감정", value: "슬픔 3회" },
-  { emoji: "😴", label: "조금 느낀 감정", value: "피곤 5회" },
-  { emoji: "🤩", label: "가장 기대한 감정", value: "기대 4회" },
+  { emoji: "😊", label: "기쁨" },
+  { emoji: "😢", label: "슬픔" },
+  { emoji: "😠", label: "분노" },
+  { emoji: "😨", label: "두려움" },
+  { emoji: "😮", label: "놀람" },
+  { emoji: "🤢", label: "혐오" },
+  { emoji: "😐", label: "중립" },
 ];
 
 function StampSummaryBox() {
@@ -19,8 +20,8 @@ function StampSummaryBox() {
         {stamps.map((stamp) => (
           <article className="stamp-item" key={stamp.label}>
             <div className="stamp-emoji">{stamp.emoji}</div>
-            <p>{stamp.label}</p>
-            <strong>{stamp.value}</strong>
+            <p>감정 스탬프</p>
+            <strong>{stamp.label}</strong>
           </article>
         ))}
       </div>
