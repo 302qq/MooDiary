@@ -19,7 +19,7 @@ function MiniCalendar() {
 
     try {
       const response = await fetch(
-        `http://15.165.95.129:8080/calendar?year=${year}&month=${month + 1}`,
+        `/api/calendar?year=${year}&month=${month + 1}`,
         {
           method: "GET",
           headers: {

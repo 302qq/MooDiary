@@ -8,7 +8,7 @@ function SignupPage() {
   const handleSignup = async () => {
     try {
       const response = await fetch(
-        "http://15.165.95.129:8080/auth/signup",
+        "/api/auth/signup",
         {
           method: "POST",
           headers: {

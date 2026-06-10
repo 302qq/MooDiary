@@ -25,7 +25,7 @@ function DiaryListPage() {
     }
 
     try {
-      const response = await fetch("http://15.165.95.129:8080/post", {
+      const response = await fetch("/api/post", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -122,7 +122,7 @@ function DiaryListPage() {
 
     try {
       const response = await fetch(
-        `http://15.165.95.129:8080/post/${selectedDiary.id}`,
+        `/api/post/${selectedDiary.id}`,
         {
           method: "PUT",
           headers: {
@@ -190,7 +190,7 @@ function DiaryListPage() {
 
     try {
       const response = await fetch(
-        `http://15.165.95.129:8080/post/${selectedDiary.id}`,
+        `/api/post/${selectedDiary.id}`,
         {
           method: "DELETE",
           headers: {
