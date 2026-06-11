@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import MiniCalendar from "./MiniCalendar";
+import profileImage from "../../assets/profile_imge.jpg";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -8,7 +9,8 @@ function Sidebar() {
     <aside className="sidebar">
       <div className="profile-card">
         <div className="profile-frame">
-          <div className="profile-image" aria-hidden="true">
+          <div className="profile-image profile-image--photo" aria-hidden="true">
+            <img className="profile-photo" src={profileImage} alt="" />
             <div className="profile-portrait">
               <div className="profile-hair" />
               <div className="profile-face">

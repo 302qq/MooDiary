@@ -57,34 +57,52 @@ body {
   min-height: 790px;
   margin: 0 auto;
   background: #fffafa;
-  border: 8px solid #ffd1dc;
+  border: 8px solid #ffb6c1;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(231, 84, 128, 0.15);
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.82),
+    inset -2px -2px 0 rgba(210, 96, 126, 0.22),
+    0 20px 60px rgba(231, 84, 128, 0.16);
+  outline: 1px solid #e889a0;
+  outline-offset: -5px;
 }
 
 /* ===== ?곷떒 諛?===== */
 .title-bar {
   height: 42px;
-  background: linear-gradient(to bottom, #ff9aa2 0%, #ffd1dc 100%);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.52) 0%, rgba(255, 255, 255, 0.14) 12%, transparent 13%),
+    linear-gradient(180deg, #ffb1ba 0%, #ff8f9c 48%, #ffc6d2 100%);
   color: #fffefc;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 18px;
   font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.32);
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid #df7892;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    inset 0 -1px 0 rgba(163, 66, 96, 0.2),
+    0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 .title-bar-text {
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  color: #fffdf8;
+  text-shadow:
+    0 1px 0 rgba(151, 62, 89, 0.55),
+    1px 0 0 rgba(255, 255, 255, 0.12);
 }
 
 .window-buttons {
   display: flex;
-  gap: 8px;
+  gap: 7px;
 }
 
 .window-buttons button {
@@ -92,24 +110,47 @@ body {
   height: 24px;
   padding: 0;
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.28);
-  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: linear-gradient(180deg, #fff8fb 0%, #ffd7e0 48%, #f7a7b8 100%);
+  border: 1px solid #cf6f87;
   border-radius: 3px;
-  color: #fff;
+  color: #9f3f5d;
   font-size: 11px;
+  font-weight: 800;
   line-height: 1;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.62);
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.9),
+    inset -1px -1px 0 rgba(169, 71, 101, 0.24),
+    0 1px 0 rgba(141, 56, 82, 0.24);
 }
 
 .window-buttons .close-btn {
-  background: #ff6b66;
-  border-color: rgba(255, 255, 255, 0.25);
+  background: linear-gradient(180deg, #ff9f9c 0%, #ff6f74 48%, #df4c5d 100%);
+  border-color: #b94658;
+  color: #fffdf8;
+  text-shadow: 0 1px 0 rgba(118, 39, 52, 0.58);
+}
+
+.window-buttons button:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #ffe2e9 48%, #ffb6c6 100%);
+}
+
+.window-buttons .close-btn:hover {
+  background: linear-gradient(180deg, #ffb9b6 0%, #ff7a80 48%, #ea5465 100%);
+}
+
+.window-buttons button:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset -1px -1px 0 rgba(255, 255, 255, 0.6),
+    inset 1px 1px 0 rgba(156, 60, 88, 0.28);
 }
 
 .menu-bar {
   height: 8px;
-  background: #fff7f9;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  background: linear-gradient(180deg, #fff5f8 0%, #ffe4eb 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.78);
+  border-bottom: 1px solid #f3b6c6;
 }
 
 /* ===== 蹂몃Ц ===== */
@@ -169,98 +210,121 @@ body {
   width: 146px;
   height: 146px;
   padding: 5px;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
   border: 4px solid #ffd1dc;
   background: #ffffff;
   box-sizing: border-box;
 }
 
 .profile-image {
+  position: relative;
   width: 100%;
   height: 100%;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #ffe7c7 0%, #b9e3d7 62%, #9dcfcb 100%);
+  border-radius: 6px;
+  background:
+    radial-gradient(circle at 35% 26%, rgba(255, 255, 255, 0.86) 0 7%, transparent 8%),
+    radial-gradient(circle at 68% 32%, rgba(255, 236, 242, 0.8) 0 11%, transparent 12%),
+    linear-gradient(180deg, #fff8ed 0%, #ffe4e9 54%, #ffd1dc 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
 
+.profile-photo {
+  width: 116%;
+  height: 116%;
+  border-radius: 6px;
+  display: block;
+  object-fit: cover;
+  object-position: center 0%;
+}
+
+.profile-image--photo .profile-portrait {
+  display: none;
+}
+
 .profile-portrait {
   position: relative;
-  width: 104px;
-  height: 116px;
+  width: 96px;
+  height: 112px;
 }
 
 .profile-hair {
   position: absolute;
-  top: 5px;
-  left: 18px;
+  top: 4px;
+  left: 14px;
   width: 68px;
-  height: 76px;
-  border-radius: 36px 36px 30px 30px;
-  background: #d8827b;
+  height: 70px;
+  border-radius: 36px 36px 26px 26px;
+  background: linear-gradient(180deg, #c97972 0%, #9f696e 100%);
   box-shadow:
-    -10px 18px 0 -8px #8f6f8f,
-    12px 20px 0 -8px #8f6f8f;
+    -8px 20px 0 -7px #8f656b,
+    8px 20px 0 -7px #8f656b,
+    inset 0 8px 0 rgba(255, 229, 219, 0.16);
 }
 
 .profile-face {
   position: absolute;
-  top: 22px;
-  left: 28px;
-  width: 48px;
-  height: 58px;
-  border-radius: 24px 24px 22px 22px;
-  background: #ffe2cf;
-  border: 1px solid rgba(175, 121, 110, 0.16);
+  top: 24px;
+  left: 23px;
+  width: 50px;
+  height: 56px;
+  border-radius: 48% 48% 46% 46%;
+  background: linear-gradient(180deg, #ffe9d9 0%, #ffd7c7 100%);
+  border: 1px solid rgba(175, 121, 110, 0.12);
+  box-shadow:
+    inset 0 -3px 0 rgba(222, 157, 143, 0.08),
+    0 2px 0 rgba(255, 255, 255, 0.48);
 }
 
 .profile-eye {
   position: absolute;
-  top: 22px;
-  width: 7px;
-  height: 7px;
+  top: 21px;
+  width: 6px;
+  height: 8px;
   border-radius: 50%;
-  background: #5b5160;
+  background: #5b4a52;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
 }
 
 .profile-eye.left {
-  left: 12px;
+  left: 13px;
 }
 
 .profile-eye.right {
-  right: 12px;
+  right: 13px;
 }
 
 .profile-mouth {
   position: absolute;
-  bottom: 12px;
-  left: 18px;
+  bottom: 13px;
+  left: 19px;
   width: 12px;
-  height: 6px;
-  border-bottom: 2px solid #d78e96;
-  border-radius: 0 0 10px 10px;
+  height: 7px;
+  border-bottom: 2px solid #c97982;
+  border-radius: 0 0 12px 12px;
 }
 
 .profile-neck {
   position: absolute;
   bottom: 24px;
-  left: 46px;
+  left: 42px;
   width: 12px;
-  height: 12px;
-  background: #ffd9c4;
-  border-radius: 0 0 8px 8px;
+  height: 13px;
+  background: #ffd5c2;
+  border-radius: 0 0 7px 7px;
 }
 
 .profile-shirt {
   position: absolute;
   bottom: 0;
-  left: 24px;
-  width: 56px;
+  left: 18px;
+  width: 60px;
   height: 36px;
-  border-radius: 18px 18px 12px 12px;
-  background: linear-gradient(180deg, #eef6f2 0%, #9ac4b9 100%);
+  border-radius: 24px 24px 14px 14px;
+  background: linear-gradient(180deg, #fff4f7 0%, #ffd1dc 100%);
+  box-shadow: inset 0 5px 0 rgba(255, 255, 255, 0.58);
 }
 
 .profile-shirt::before,
@@ -287,6 +351,7 @@ body {
   margin: 0;
   color: var(--pink-600);
   font-size: 20px;
+  font-weight: 700;
   font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
 }
 
@@ -307,29 +372,40 @@ body {
 
 .sidebar-menu-item {
   width: 100%;
-  min-height: 44px;
-  padding: 0 16px;
+  min-height: 48px;
+  padding: 0 17px;
   background: #ffffff;
-  border: 1px solid rgba(255, 209, 220, 0.35);
+  border: 1px solid rgba(255, 182, 193, 0.58);
   border-left: 4px solid #e75480;
   border-radius: 10px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 11px;
   font-size: 16px;
   font-weight: 700;
   color: var(--text-strong);
   cursor: pointer;
+  box-shadow: 0 6px 14px rgba(231, 84, 128, 0.06);
 }
 
 .sidebar-menu-item:hover {
-  background: rgba(255, 209, 220, 0.12);
+  border-color: rgba(255, 182, 193, 0.86);
+  background: rgba(255, 236, 242, 0.72);
   transform: translateY(-1px);
 }
 
+.sidebar-menu-item:focus,
+.sidebar-menu-item:active {
+  border-color: #ffb6c1;
+  background: linear-gradient(180deg, #fff3f6 0%, #ffe6ed 100%);
+  box-shadow: inset 4px 0 0 #e75480, 0 8px 18px rgba(231, 84, 128, 0.1);
+  outline: none;
+}
+
 .sidebar-menu-icon {
-  font-size: 15px;
+  font-size: 18px;
+  line-height: 1;
 }
 
 /* ===== Sidebar Mini Calendar ===== */
@@ -385,34 +461,34 @@ body {
 .mini-calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: 16px repeat(6, minmax(30px, 1fr));
-  gap: 3px;
+  grid-template-rows: 18px repeat(6, minmax(31px, 1fr));
+  gap: 4px;
   min-height: 0;
   flex: 1;
   align-content: stretch;
 }
 
 .mini-calendar-label {
-  height: 16px;
-  font-size: 8px;
+  height: 18px;
+  font-size: 9px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #a09aa9;
+  color: #8f8795;
   font-weight: 700;
 }
 
 .mini-calendar-cell {
   min-height: 0;
-  border: 0;
-  border-radius: 10px;
+  border: 1px solid rgba(255, 202, 215, 0.72);
+  border-radius: 9px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 209, 220, 0.12);
-  padding: 1px 0;
+  background: rgba(255, 249, 251, 0.88);
+  padding: 3px 1px 2px;
 }
 
 .mini-calendar-cell.active {
@@ -420,7 +496,8 @@ body {
 }
 
 .mini-calendar-cell.active:hover {
-  background: rgba(255, 209, 220, 0.2);
+  border-color: rgba(255, 182, 193, 0.92);
+  background: rgba(255, 236, 242, 0.92);
 }
 
 .mini-calendar-cell:disabled {
@@ -428,15 +505,16 @@ body {
 }
 
 .mini-date {
-  font-size: 8px;
+  font-size: 10px;
+  font-weight: 700;
   line-height: 1;
-  margin-bottom: 2px;
-  color: #8b8594;
+  margin-bottom: 3px;
+  color: #6f6874;
 }
 
 .mini-stamp {
-  min-height: 12px;
-  font-size: 11px;
+  min-height: 13px;
+  font-size: 12px;
   line-height: 1;
 }
 
@@ -444,7 +522,7 @@ body {
 .home-page {
   width: 100%;
   min-height: 100%;
-  padding: 18px 18px 20px 18px;
+  padding: 0 26px 26px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -453,30 +531,21 @@ body {
 }
 
 .hero-box {
-  padding: 10px 28px 4px;
-  text-align: center;
+  margin-right: -26px;
+  margin-left: -26px;
+  text-align: left;
   background: transparent;
-  border: 0;
   box-shadow: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-shrink: 0;
+  justify-content: center;
 }
 
 .hero-kicker {
-  margin: 0 0 10px;
-  color: var(--pink-600);
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  display: none;
 }
 
 .hero-box h1 {
   margin: 0;
-  color: var(--pink-600);
-  font-size: 48px;
-  font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
 }
 
 .hero-description {
@@ -502,13 +571,13 @@ body {
   width: 100%;
   grid-column: 1 / -1;
   grid-row: 1;
-  padding: 24px 42px 26px;
+  padding: 18px 24px 22px;
   min-height: 164px;
   min-width: 0;
   box-sizing: border-box;
-  border: 1px solid #ffe4e9;
+  border: 1px solid #ffb6c1;
   background: #ffffff;
-  box-shadow: 0 12px 26px rgba(231, 84, 128, 0.08);
+  box-shadow: 0 13px 28px rgba(231, 84, 128, 0.11);
 }
 
 .section-heading {
@@ -518,21 +587,37 @@ body {
   margin-bottom: 14px;
 }
 
-.section-heading-line {
-  padding-bottom: 12px;
-  border-bottom: 2px solid #ffd1dc;
-  margin-bottom: 0;
+.home-page .section-heading {
+  min-height: 40px;
+  padding: 0 4px 12px;
+  border-bottom: 2px solid rgba(255, 182, 193, 0.92);
+  box-sizing: border-box;
+  margin: 0 0 14px;
 }
 
-.section-heading h2 {
+.home-page .section-heading-line {
+  margin-bottom: 14px;
+}
+
+.home-page .section-heading h2 {
   margin: 0;
-  font-size: 17px;
+  color: var(--text-strong);
+  font-size: 18px;
+  font-weight: 700;
   font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
+  line-height: 1.2;
 }
 
 .section-icon {
   color: var(--pink-600);
   font-size: 18px;
+}
+
+.home-page .section-icon {
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .today-message-quote {
@@ -555,16 +640,16 @@ body {
   width: 100%;
   grid-column: 1;
   grid-row: 2;
-  padding: 16px 24px 18px;
+  padding: 18px 24px 18px;
   display: flex;
   flex-direction: column;
   min-height: 420px;
   height: 420px;
   min-width: 0;
   box-sizing: border-box;
-  border: 1px solid #ffe4e9;
+  border: 1px solid #ffb6c1;
   background: #ffffff;
-  box-shadow: 0 12px 26px rgba(231, 84, 128, 0.08);
+  box-shadow: 0 13px 28px rgba(231, 84, 128, 0.11);
 }
 
 .recent-list {
@@ -574,7 +659,7 @@ body {
   min-height: 0;
   max-height: 420px;
   overflow-y: auto;
-  padding: 18px 2px 10px;
+  padding: 0 2px 10px;
   scrollbar-width: thin;
   scrollbar-color: #ffb6c1 #fff4f7;
 }
@@ -669,7 +754,7 @@ body {
 .stamp-book-card {
   grid-column: 2;
   grid-row: 2;
-  padding: 16px 14px 16px;
+  padding: 18px 18px 16px;
   min-height: 420px;
   height: 420px;
   width: 100%;
@@ -679,9 +764,9 @@ body {
   justify-self: stretch;
   align-self: start;
   margin-top: 0;
-  border: 1px solid #ffe4e9;
+  border: 1px solid #ffb6c1;
   background: #ffffff;
-  box-shadow: 0 12px 26px rgba(231, 84, 128, 0.08);
+  box-shadow: 0 13px 28px rgba(231, 84, 128, 0.11);
   overflow: visible;
   display: flex;
   flex-direction: column;
@@ -741,7 +826,7 @@ body {
   width: 100%;
   height: 100%;
   min-height: 0;
-  padding: 26px 34px 28px;
+  padding: 0 34px 28px;
   box-sizing: border-box;
   background: transparent;
   margin: 0;
@@ -753,18 +838,36 @@ body {
 }
 
 .write-page-title {
+  margin-right: -34px;
+  margin-left: -34px;
+}
+
+.hero-box,
+.write-page-title,
+.diary-view-title,
+.diary-detail-title,
+.calendar-title {
   width: 100%;
-  height: auto;
-  margin: 0;
-  padding: 8px 2px 10px;
+  height: 66px;
+  padding: 0 30px;
   background: transparent;
+  border: 0;
   border-bottom: 2px solid rgba(255, 209, 220, 0.7);
+  box-sizing: border-box;
   display: flex;
   align-items: center;
-  font-size: 28px;
-  font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
+  flex-direction: row;
   color: var(--pink-600);
-  box-sizing: border-box;
+  font-size: 28px;
+  font-weight: 800;
+  font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
+}
+
+.hero-box h1 {
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  font-family: inherit;
 }
 
 .date-area {
@@ -793,12 +896,12 @@ body {
   height: 58px;
   margin: 0;
   display: block;
-  border: 1px solid #ffe4e9;
+  border: 1px solid #ffb6c1;
   border-radius: 14px;
   padding: 0 20px;
   box-sizing: border-box;
   background: #ffffff;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 13px 28px rgba(231, 84, 128, 0.11);
   color: var(--text-strong);
   font-size: 18px;
   outline: none;
@@ -811,7 +914,7 @@ body {
   height: auto;
   flex: 1;
   margin: 0;
-  border: 1px solid #ffe4e9;
+  border: 1px solid #ffb6c1;
   border-radius: 18px;
   padding: 20px 22px;
   box-sizing: border-box;
@@ -819,7 +922,7 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
   background: #ffffff;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 13px 28px rgba(231, 84, 128, 0.11);
   color: var(--text-strong);
   font-size: 17px;
   line-height: 1.95;
@@ -916,6 +1019,10 @@ body {
 }
 
 /* ===== Auth Pages ===== */
+.content:has(.auth-page) .sidebar {
+  display: none;
+}
+
 .auth-page {
   width: 100%;
   min-height: 100%;
@@ -1099,14 +1206,45 @@ body {
   overflow: hidden;
 }
 
+.diary-detail-page {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.diary-detail-card {
+  margin: 18px 26px 26px;
+  padding: 18px 20px 20px;
+  border: 1px solid #ffb6c1;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 13px 28px rgba(231, 84, 128, 0.11);
+  box-sizing: border-box;
+}
+
+.diary-detail-card h2 {
+  margin: 0 0 14px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(255, 182, 193, 0.92);
+  color: var(--text-strong);
+  font-size: 18px;
+  font-weight: 700;
+  font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
+}
+
+.diary-detail-card p {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
 .diary-view-title {
   flex-shrink: 0;
-  padding: 22px 30px 12px;
-  background: transparent;
-  border-bottom: 2px solid rgba(255, 209, 220, 0.7);
-  color: var(--pink-600);
-  font-size: 28px;
-  font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
 }
 
 .diary-view-layout {
@@ -1115,7 +1253,7 @@ body {
   display: grid;
   grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.5fr);
   gap: 18px;
-  padding: 20px 26px 26px;
+  padding: 18px 26px 26px;
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -1124,10 +1262,10 @@ body {
 .diary-view-detail {
   min-width: 0;
   min-height: 0;
-  border: 1px solid var(--line-soft);
+  border: 1px solid #ffb6c1;
   border-radius: 14px;
   background: #ffffff;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 13px 28px rgba(231, 84, 128, 0.11);
 }
 
 .diary-view-list-panel {
@@ -1142,7 +1280,7 @@ body {
   justify-content: space-between;
   gap: 12px;
   padding: 18px 18px 14px;
-  border-bottom: 1px solid rgba(255, 209, 220, 0.55);
+  border-bottom: 2px solid rgba(255, 182, 193, 0.92);
   background: linear-gradient(180deg, rgba(255, 249, 251, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%);
 }
 
@@ -1150,14 +1288,12 @@ body {
   margin: 0;
   color: var(--text-strong);
   font-size: 17px;
+  font-weight: 800;
   font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
 }
 
 .diary-view-list-header p {
-  margin: 6px 0 0;
-  color: var(--text-soft);
-  font-size: 12px;
-  line-height: 1.5;
+  display: none;
 }
 
 .diary-view-count {
@@ -1257,8 +1393,9 @@ body {
 .empty-detail-text,
 .diary-view-empty {
   margin: 0;
-  color: var(--text-soft);
+  color: #6f6874;
   font-size: 14px;
+  font-weight: 700;
   text-align: center;
 }
 
@@ -1289,7 +1426,7 @@ body {
   padding: 8px 14px;
   border-radius: 12px;
   background: #fff3f6;
-  border: 1px solid #ffcad7;
+  border: 1px solid #ffb6c1;
   color: var(--pink-600);
   font-size: 13px;
   font-weight: 700;
@@ -1334,11 +1471,11 @@ body {
 .detail-edit-title {
   width: 100%;
   padding: 18px 20px;
-  border: 1px solid #ffe4e9;
+  border: 1px solid #ffb6c1;
   border-radius: 14px;
   background: #ffffff;
   box-sizing: border-box;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 13px 28px rgba(231, 84, 128, 0.11);
   color: var(--text-strong);
   font-size: 22px;
   font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
@@ -1365,10 +1502,10 @@ body {
 .detail-panel,
 .detail-edit-content {
   min-height: 0;
-  border: 1px solid #ffe4e9;
+  border: 1px solid #ffb6c1;
   border-radius: 16px;
   background: #ffffff;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 13px 28px rgba(231, 84, 128, 0.11);
 }
 
 .detail-content-panel {
@@ -1388,7 +1525,7 @@ body {
   align-items: center;
   gap: 8px;
   padding: 16px 18px 12px;
-  border-bottom: 1px solid rgba(255, 209, 220, 0.55);
+  border-bottom: 2px solid rgba(255, 182, 193, 0.92);
 }
 
 .detail-panel-header h3 {
@@ -1477,19 +1614,12 @@ body {
 
 .calendar-title {
   flex-shrink: 0;
-  padding: 16px 24px 8px;
-  background: transparent;
-  border-bottom: 2px solid rgba(255, 209, 220, 0.7);
-  color: var(--pink-600);
-  font-size: 28px;
-  font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
-  box-sizing: border-box;
 }
 
 .calendar-wrapper {
   flex: 1;
   min-height: 0;
-  padding: 12px 18px 16px;
+  padding: 18px 26px 26px;
   box-sizing: border-box;
   display: flex;
   overflow: hidden;
@@ -1499,10 +1629,10 @@ body {
   width: 100%;
   flex: 1;
   min-height: 0;
-  border: 1px solid var(--line-soft);
+  border: 1px solid #ffb6c1;
   border-radius: 16px;
   background: #ffffff;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 13px 28px rgba(231, 84, 128, 0.11);
   padding: 12px 14px 14px;
   box-sizing: border-box;
   display: flex;
@@ -1511,11 +1641,13 @@ body {
 }
 
 .calendar-headline {
-  display: flex;
+  order: 2;
+  display: none;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 0 2px;
+  padding: 0 2px 10px;
+  border-bottom: 2px solid rgba(255, 182, 193, 0.92);
 }
 
 .calendar-headline h2 {
@@ -1526,25 +1658,25 @@ body {
 }
 
 .calendar-headline p {
-  margin: 1px 0 0;
-  color: var(--text-soft);
-  font-size: 11px;
-  line-height: 1.35;
+  display: none;
 }
 
 .calendar-header {
+  order: 1;
   min-height: 42px;
   display: grid;
   grid-template-columns: 42px 1fr 42px;
   align-items: center;
   gap: 10px;
   flex-shrink: 0;
+  padding: 0 2px 10px;
 }
 
 .calendar-month-label {
   text-align: center;
   color: var(--pink-600);
   font-size: 26px;
+  font-weight: 700;
   font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
 }
 
@@ -1565,6 +1697,7 @@ body {
 }
 
 .calendar-grid {
+  order: 3;
   flex: 1;
   min-height: 0;
   height: 100%;
@@ -1573,7 +1706,7 @@ body {
   grid-template-rows: 28px repeat(6, 1fr);
   gap: 7px;
   padding: 12px;
-  border: 2px solid rgba(255, 209, 220, 0.55);
+  border: 2px solid rgba(255, 182, 193, 0.82);
   border-radius: 18px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 249, 251, 0.98)),
@@ -1601,7 +1734,7 @@ body {
 
 .calendar-cell {
   position: relative;
-  border: 1px solid rgba(255, 228, 233, 0.8);
+  border: 1px solid rgba(255, 202, 215, 0.92);
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -1616,7 +1749,10 @@ body {
 }
 
 .calendar-cell.empty {
-  visibility: hidden;
+  visibility: visible;
+  background: rgba(255, 249, 251, 0.45);
+  border: 1px dashed rgba(255, 209, 220, 0.52);
+  box-shadow: none;
 }
 
 .calendar-cell.has-day .date {
@@ -1752,14 +1888,6 @@ body {
 
   .title-bar-text {
     font-size: 12px;
-  }
-
-  .hero-box {
-    padding: 18px 12px 8px;
-  }
-
-  .hero-box h1 {
-    font-size: 34px;
   }
 
   .hero-description {
