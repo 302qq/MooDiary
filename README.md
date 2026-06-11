@@ -20,3 +20,6 @@ https://pixabay.com/ko/illustrations/%ea%b3%a0%ec%96%91%ec%9d%b4-%ec%a3%bc%eb%b0
 
 //폰트 출처
 네이버에서 제공한 나눔글꼴이 적용되어 있습니다.
+
+//이미지 출처
+https://www.pexels.com/ko-kr/photo/16371565/
