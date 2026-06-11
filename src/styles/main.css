@@ -169,98 +169,121 @@ body {
   width: 146px;
   height: 146px;
   padding: 5px;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
   border: 4px solid #ffd1dc;
   background: #ffffff;
   box-sizing: border-box;
 }
 
 .profile-image {
+  position: relative;
   width: 100%;
   height: 100%;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #ffe7c7 0%, #b9e3d7 62%, #9dcfcb 100%);
+  border-radius: 6px;
+  background:
+    radial-gradient(circle at 35% 26%, rgba(255, 255, 255, 0.86) 0 7%, transparent 8%),
+    radial-gradient(circle at 68% 32%, rgba(255, 236, 242, 0.8) 0 11%, transparent 12%),
+    linear-gradient(180deg, #fff8ed 0%, #ffe4e9 54%, #ffd1dc 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
 
+.profile-photo {
+  width: 116%;
+  height: 116%;
+  border-radius: 6px;
+  display: block;
+  object-fit: cover;
+  object-position: center 0%;
+}
+
+.profile-image--photo .profile-portrait {
+  display: none;
+}
+
 .profile-portrait {
   position: relative;
-  width: 104px;
-  height: 116px;
+  width: 96px;
+  height: 112px;
 }
 
 .profile-hair {
   position: absolute;
-  top: 5px;
-  left: 18px;
+  top: 4px;
+  left: 14px;
   width: 68px;
-  height: 76px;
-  border-radius: 36px 36px 30px 30px;
-  background: #d8827b;
+  height: 70px;
+  border-radius: 36px 36px 26px 26px;
+  background: linear-gradient(180deg, #c97972 0%, #9f696e 100%);
   box-shadow:
-    -10px 18px 0 -8px #8f6f8f,
-    12px 20px 0 -8px #8f6f8f;
+    -8px 20px 0 -7px #8f656b,
+    8px 20px 0 -7px #8f656b,
+    inset 0 8px 0 rgba(255, 229, 219, 0.16);
 }
 
 .profile-face {
   position: absolute;
-  top: 22px;
-  left: 28px;
-  width: 48px;
-  height: 58px;
-  border-radius: 24px 24px 22px 22px;
-  background: #ffe2cf;
-  border: 1px solid rgba(175, 121, 110, 0.16);
+  top: 24px;
+  left: 23px;
+  width: 50px;
+  height: 56px;
+  border-radius: 48% 48% 46% 46%;
+  background: linear-gradient(180deg, #ffe9d9 0%, #ffd7c7 100%);
+  border: 1px solid rgba(175, 121, 110, 0.12);
+  box-shadow:
+    inset 0 -3px 0 rgba(222, 157, 143, 0.08),
+    0 2px 0 rgba(255, 255, 255, 0.48);
 }
 
 .profile-eye {
   position: absolute;
-  top: 22px;
-  width: 7px;
-  height: 7px;
+  top: 21px;
+  width: 6px;
+  height: 8px;
   border-radius: 50%;
-  background: #5b5160;
+  background: #5b4a52;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
 }
 
 .profile-eye.left {
-  left: 12px;
+  left: 13px;
 }
 
 .profile-eye.right {
-  right: 12px;
+  right: 13px;
 }
 
 .profile-mouth {
   position: absolute;
-  bottom: 12px;
-  left: 18px;
+  bottom: 13px;
+  left: 19px;
   width: 12px;
-  height: 6px;
-  border-bottom: 2px solid #d78e96;
-  border-radius: 0 0 10px 10px;
+  height: 7px;
+  border-bottom: 2px solid #c97982;
+  border-radius: 0 0 12px 12px;
 }
 
 .profile-neck {
   position: absolute;
   bottom: 24px;
-  left: 46px;
+  left: 42px;
   width: 12px;
-  height: 12px;
-  background: #ffd9c4;
-  border-radius: 0 0 8px 8px;
+  height: 13px;
+  background: #ffd5c2;
+  border-radius: 0 0 7px 7px;
 }
 
 .profile-shirt {
   position: absolute;
   bottom: 0;
-  left: 24px;
-  width: 56px;
+  left: 18px;
+  width: 60px;
   height: 36px;
-  border-radius: 18px 18px 12px 12px;
-  background: linear-gradient(180deg, #eef6f2 0%, #9ac4b9 100%);
+  border-radius: 24px 24px 14px 14px;
+  background: linear-gradient(180deg, #fff4f7 0%, #ffd1dc 100%);
+  box-shadow: inset 0 5px 0 rgba(255, 255, 255, 0.58);
 }
 
 .profile-shirt::before,
@@ -287,6 +310,7 @@ body {
   margin: 0;
   color: var(--pink-600);
   font-size: 20px;
+  font-weight: 700;
   font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
 }
 
@@ -916,6 +940,10 @@ body {
 }
 
 /* ===== Auth Pages ===== */
+.content:has(.auth-page) .sidebar {
+  display: none;
+}
+
 .auth-page {
   width: 100%;
   min-height: 100%;
