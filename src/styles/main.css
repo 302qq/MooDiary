@@ -517,13 +517,13 @@ body {
   width: 100%;
   grid-column: 1 / -1;
   grid-row: 1;
-  padding: 24px 42px 26px;
+  padding: 18px 24px 22px;
   min-height: 164px;
   min-width: 0;
   box-sizing: border-box;
-  border: 1px solid #ffe4e9;
+  border: 1px solid #ffb6c1;
   background: #ffffff;
-  box-shadow: 0 12px 26px rgba(231, 84, 128, 0.08);
+  box-shadow: 0 13px 28px rgba(231, 84, 128, 0.11);
 }
 
 .section-heading {
@@ -533,21 +533,37 @@ body {
   margin-bottom: 14px;
 }
 
-.section-heading-line {
-  padding-bottom: 12px;
-  border-bottom: 2px solid #ffd1dc;
-  margin-bottom: 0;
+.home-page .section-heading {
+  min-height: 40px;
+  padding: 0 4px 12px;
+  border-bottom: 2px solid rgba(255, 182, 193, 0.92);
+  box-sizing: border-box;
+  margin: 0 0 14px;
 }
 
-.section-heading h2 {
+.home-page .section-heading-line {
+  margin-bottom: 14px;
+}
+
+.home-page .section-heading h2 {
   margin: 0;
-  font-size: 17px;
+  color: var(--text-strong);
+  font-size: 18px;
+  font-weight: 700;
   font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
+  line-height: 1.2;
 }
 
 .section-icon {
   color: var(--pink-600);
   font-size: 18px;
+}
+
+.home-page .section-icon {
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .today-message-quote {
@@ -570,16 +586,16 @@ body {
   width: 100%;
   grid-column: 1;
   grid-row: 2;
-  padding: 16px 24px 18px;
+  padding: 18px 24px 18px;
   display: flex;
   flex-direction: column;
   min-height: 420px;
   height: 420px;
   min-width: 0;
   box-sizing: border-box;
-  border: 1px solid #ffe4e9;
+  border: 1px solid #ffb6c1;
   background: #ffffff;
-  box-shadow: 0 12px 26px rgba(231, 84, 128, 0.08);
+  box-shadow: 0 13px 28px rgba(231, 84, 128, 0.11);
 }
 
 .recent-list {
@@ -589,7 +605,7 @@ body {
   min-height: 0;
   max-height: 420px;
   overflow-y: auto;
-  padding: 18px 2px 10px;
+  padding: 0 2px 10px;
   scrollbar-width: thin;
   scrollbar-color: #ffb6c1 #fff4f7;
 }
@@ -684,7 +700,7 @@ body {
 .stamp-book-card {
   grid-column: 2;
   grid-row: 2;
-  padding: 16px 14px 16px;
+  padding: 18px 18px 16px;
   min-height: 420px;
   height: 420px;
   width: 100%;
@@ -694,9 +710,9 @@ body {
   justify-self: stretch;
   align-self: start;
   margin-top: 0;
-  border: 1px solid #ffe4e9;
+  border: 1px solid #ffb6c1;
   background: #ffffff;
-  box-shadow: 0 12px 26px rgba(231, 84, 128, 0.08);
+  box-shadow: 0 13px 28px rgba(231, 84, 128, 0.11);
   overflow: visible;
   display: flex;
   flex-direction: column;
@@ -775,6 +791,7 @@ body {
 .hero-box,
 .write-page-title,
 .diary-view-title,
+.diary-detail-title,
 .calendar-title {
   width: 100%;
   height: 66px;
@@ -825,12 +842,12 @@ body {
   height: 58px;
   margin: 0;
   display: block;
-  border: 1px solid #ffe4e9;
+  border: 1px solid #ffb6c1;
   border-radius: 14px;
   padding: 0 20px;
   box-sizing: border-box;
   background: #ffffff;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 13px 28px rgba(231, 84, 128, 0.11);
   color: var(--text-strong);
   font-size: 18px;
   outline: none;
@@ -843,7 +860,7 @@ body {
   height: auto;
   flex: 1;
   margin: 0;
-  border: 1px solid #ffe4e9;
+  border: 1px solid #ffb6c1;
   border-radius: 18px;
   padding: 20px 22px;
   box-sizing: border-box;
@@ -851,7 +868,7 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
   background: #ffffff;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 13px 28px rgba(231, 84, 128, 0.11);
   color: var(--text-strong);
   font-size: 17px;
   line-height: 1.95;
@@ -1135,6 +1152,43 @@ body {
   overflow: hidden;
 }
 
+.diary-detail-page {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.diary-detail-card {
+  margin: 18px 26px 26px;
+  padding: 18px 20px 20px;
+  border: 1px solid #ffb6c1;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 13px 28px rgba(231, 84, 128, 0.11);
+  box-sizing: border-box;
+}
+
+.diary-detail-card h2 {
+  margin: 0 0 14px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(255, 182, 193, 0.92);
+  color: var(--text-strong);
+  font-size: 18px;
+  font-weight: 700;
+  font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
+}
+
+.diary-detail-card p {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
 .diary-view-title {
   flex-shrink: 0;
 }
@@ -1154,10 +1208,10 @@ body {
 .diary-view-detail {
   min-width: 0;
   min-height: 0;
-  border: 1px solid var(--line-soft);
+  border: 1px solid #ffb6c1;
   border-radius: 14px;
   background: #ffffff;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 13px 28px rgba(231, 84, 128, 0.11);
 }
 
 .diary-view-list-panel {
@@ -1172,7 +1226,7 @@ body {
   justify-content: space-between;
   gap: 12px;
   padding: 18px 18px 14px;
-  border-bottom: 1px solid rgba(255, 209, 220, 0.55);
+  border-bottom: 2px solid rgba(255, 182, 193, 0.92);
   background: linear-gradient(180deg, rgba(255, 249, 251, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%);
 }
 
@@ -1180,14 +1234,12 @@ body {
   margin: 0;
   color: var(--text-strong);
   font-size: 17px;
+  font-weight: 800;
   font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
 }
 
 .diary-view-list-header p {
-  margin: 6px 0 0;
-  color: var(--text-soft);
-  font-size: 12px;
-  line-height: 1.5;
+  display: none;
 }
 
 .diary-view-count {
@@ -1287,8 +1339,9 @@ body {
 .empty-detail-text,
 .diary-view-empty {
   margin: 0;
-  color: var(--text-soft);
+  color: #6f6874;
   font-size: 14px;
+  font-weight: 700;
   text-align: center;
 }
 
@@ -1319,7 +1372,7 @@ body {
   padding: 8px 14px;
   border-radius: 12px;
   background: #fff3f6;
-  border: 1px solid #ffcad7;
+  border: 1px solid #ffb6c1;
   color: var(--pink-600);
   font-size: 13px;
   font-weight: 700;
@@ -1364,11 +1417,11 @@ body {
 .detail-edit-title {
   width: 100%;
   padding: 18px 20px;
-  border: 1px solid #ffe4e9;
+  border: 1px solid #ffb6c1;
   border-radius: 14px;
   background: #ffffff;
   box-sizing: border-box;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 13px 28px rgba(231, 84, 128, 0.11);
   color: var(--text-strong);
   font-size: 22px;
   font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
@@ -1395,10 +1448,10 @@ body {
 .detail-panel,
 .detail-edit-content {
   min-height: 0;
-  border: 1px solid #ffe4e9;
+  border: 1px solid #ffb6c1;
   border-radius: 16px;
   background: #ffffff;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 13px 28px rgba(231, 84, 128, 0.11);
 }
 
 .detail-content-panel {
@@ -1418,7 +1471,7 @@ body {
   align-items: center;
   gap: 8px;
   padding: 16px 18px 12px;
-  border-bottom: 1px solid rgba(255, 209, 220, 0.55);
+  border-bottom: 2px solid rgba(255, 182, 193, 0.92);
 }
 
 .detail-panel-header h3 {
@@ -1522,10 +1575,10 @@ body {
   width: 100%;
   flex: 1;
   min-height: 0;
-  border: 1px solid var(--line-soft);
+  border: 1px solid #ffb6c1;
   border-radius: 16px;
   background: #ffffff;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 13px 28px rgba(231, 84, 128, 0.11);
   padding: 12px 14px 14px;
   box-sizing: border-box;
   display: flex;
@@ -1534,11 +1587,13 @@ body {
 }
 
 .calendar-headline {
-  display: flex;
+  order: 2;
+  display: none;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 0 2px;
+  padding: 0 2px 10px;
+  border-bottom: 2px solid rgba(255, 182, 193, 0.92);
 }
 
 .calendar-headline h2 {
@@ -1549,25 +1604,25 @@ body {
 }
 
 .calendar-headline p {
-  margin: 1px 0 0;
-  color: var(--text-soft);
-  font-size: 11px;
-  line-height: 1.35;
+  display: none;
 }
 
 .calendar-header {
+  order: 1;
   min-height: 42px;
   display: grid;
   grid-template-columns: 42px 1fr 42px;
   align-items: center;
   gap: 10px;
   flex-shrink: 0;
+  padding: 0 2px 10px;
 }
 
 .calendar-month-label {
   text-align: center;
   color: var(--pink-600);
   font-size: 26px;
+  font-weight: 700;
   font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
 }
 
@@ -1588,6 +1643,7 @@ body {
 }
 
 .calendar-grid {
+  order: 3;
   flex: 1;
   min-height: 0;
   height: 100%;
@@ -1596,7 +1652,7 @@ body {
   grid-template-rows: 28px repeat(6, 1fr);
   gap: 7px;
   padding: 12px;
-  border: 2px solid rgba(255, 209, 220, 0.55);
+  border: 2px solid rgba(255, 182, 193, 0.82);
   border-radius: 18px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 249, 251, 0.98)),
@@ -1624,7 +1680,7 @@ body {
 
 .calendar-cell {
   position: relative;
-  border: 1px solid rgba(255, 228, 233, 0.8);
+  border: 1px solid rgba(255, 202, 215, 0.92);
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -1639,7 +1695,10 @@ body {
 }
 
 .calendar-cell.empty {
-  visibility: hidden;
+  visibility: visible;
+  background: rgba(255, 249, 251, 0.45);
+  border: 1px dashed rgba(255, 209, 220, 0.52);
+  box-shadow: none;
 }
 
 .calendar-cell.has-day .date {
