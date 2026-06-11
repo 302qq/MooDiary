@@ -331,29 +331,40 @@ body {
 
 .sidebar-menu-item {
   width: 100%;
-  min-height: 44px;
-  padding: 0 16px;
+  min-height: 48px;
+  padding: 0 17px;
   background: #ffffff;
-  border: 1px solid rgba(255, 209, 220, 0.35);
+  border: 1px solid rgba(255, 182, 193, 0.58);
   border-left: 4px solid #e75480;
   border-radius: 10px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 11px;
   font-size: 16px;
   font-weight: 700;
   color: var(--text-strong);
   cursor: pointer;
+  box-shadow: 0 6px 14px rgba(231, 84, 128, 0.06);
 }
 
 .sidebar-menu-item:hover {
-  background: rgba(255, 209, 220, 0.12);
+  border-color: rgba(255, 182, 193, 0.86);
+  background: rgba(255, 236, 242, 0.72);
   transform: translateY(-1px);
 }
 
+.sidebar-menu-item:focus,
+.sidebar-menu-item:active {
+  border-color: #ffb6c1;
+  background: linear-gradient(180deg, #fff3f6 0%, #ffe6ed 100%);
+  box-shadow: inset 4px 0 0 #e75480, 0 8px 18px rgba(231, 84, 128, 0.1);
+  outline: none;
+}
+
 .sidebar-menu-icon {
-  font-size: 15px;
+  font-size: 18px;
+  line-height: 1;
 }
 
 /* ===== Sidebar Mini Calendar ===== */
