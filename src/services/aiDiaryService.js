@@ -12,14 +12,18 @@ export const EMOTION_STAMPS = {
 };
 
 const VALID_EMOTIONS = Object.keys(EMOTION_STAMPS);
+const EMOTION_ALIASES = {
+  happy: "joy",
+};
 
 const normalizeEmotion = (emotion) => {
   const normalizedEmotion = String(emotion || "")
     .trim()
     .toLowerCase();
+  const mappedEmotion = EMOTION_ALIASES[normalizedEmotion] || normalizedEmotion;
 
-  return VALID_EMOTIONS.includes(normalizedEmotion)
-    ? normalizedEmotion
+  return VALID_EMOTIONS.includes(mappedEmotion)
+    ? mappedEmotion
     : "neutral";
 };
 
