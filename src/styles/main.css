@@ -1145,6 +1145,8 @@ body {
 }
 
 .auth-page {
+  position: relative;
+  isolation: isolate;
   width: 100%;
   min-height: 100%;
   padding: 48px 24px;
@@ -1153,12 +1155,58 @@ body {
   align-items: center;
   justify-content: center;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.96)),
-    var(--grid-bg);
-  background-size: auto, 20px 20px;
+    radial-gradient(circle at 14% 18%, rgba(255, 154, 162, 0.24) 0 9px, transparent 10px),
+    radial-gradient(circle at 88% 20%, rgba(255, 209, 220, 0.36) 0 12px, transparent 13px),
+    radial-gradient(circle at 78% 78%, rgba(231, 84, 128, 0.12) 0 10px, transparent 11px),
+    linear-gradient(90deg, rgba(231, 84, 128, 0.06) 1px, transparent 1px),
+    linear-gradient(rgba(231, 84, 128, 0.06) 1px, transparent 1px),
+    linear-gradient(180deg, #fff9fb 0%, #fff4f7 54%, #fffdf8 100%);
+  background-size: auto, auto, auto, 24px 24px, 24px 24px, auto;
+  overflow: hidden;
+}
+
+.auth-page::before,
+.auth-page::after {
+  position: absolute;
+  z-index: -1;
+  color: rgba(231, 84, 128, 0.28);
+  font-weight: 800;
+  pointer-events: none;
+  text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.8);
+}
+
+.auth-page::before {
+  content: "♡";
+  top: 68px;
+  left: clamp(28px, 10vw, 140px);
+  width: 82px;
+  height: 82px;
+  border: 2px dashed rgba(255, 154, 162, 0.45);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.48);
+  font-size: 44px;
+  line-height: 78px;
+  text-align: center;
+  transform: rotate(-8deg);
+}
+
+.auth-page::after {
+  content: "MOOD";
+  right: clamp(26px, 8vw, 120px);
+  bottom: 70px;
+  padding: 10px 16px;
+  border: 2px solid rgba(255, 182, 193, 0.48);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.54);
+  color: rgba(159, 63, 93, 0.28);
+  font-size: 16px;
+  letter-spacing: 0.12em;
+  transform: rotate(7deg);
 }
 
 .auth-card {
+  position: relative;
+  z-index: 1;
   width: min(420px, 100%);
   padding: 30px 34px 28px;
   border: 1px solid var(--line-soft);
@@ -1179,14 +1227,15 @@ body {
   margin: 0 0 8px;
   color: var(--pink-600);
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 950;
   letter-spacing: 0.14em;
 }
 
 .auth-title {
   margin: 0;
-  color: var(--pink-600);
+  color: #d83f72;
   font-size: 36px;
+  font-weight: 900;
   line-height: 1.2;
   font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
 }
@@ -2296,6 +2345,23 @@ body {
   .auth-page {
     padding: 28px 14px;
     align-items: flex-start;
+  }
+
+  .auth-page::before {
+    top: 18px;
+    left: 14px;
+    width: 58px;
+    height: 58px;
+    border-radius: 14px;
+    font-size: 30px;
+    line-height: 54px;
+  }
+
+  .auth-page::after {
+    right: 12px;
+    bottom: 20px;
+    padding: 7px 11px;
+    font-size: 12px;
   }
 
   .auth-card {
