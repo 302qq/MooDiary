@@ -20,10 +20,12 @@ const decodeJwtPayload = (token) => {
 };
 
 export const getDisplayNickname = () => {
+  const storedNickname = localStorage.getItem("nickname");
   const token = localStorage.getItem("accessToken");
   const payload = token ? decodeJwtPayload(token) : null;
 
   return (
+    storedNickname ||
     payload?.nickname ||
     payload?.nickName ||
     payload?.name ||

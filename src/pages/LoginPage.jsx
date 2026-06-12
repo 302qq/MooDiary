@@ -56,6 +56,9 @@ function LoginPage() {
 
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("userId", data.userId);
+      if (data.nickname) {
+        localStorage.setItem("nickname", data.nickname);
+      }
 
       alert("로그인 성공!");
       navigate("/");
