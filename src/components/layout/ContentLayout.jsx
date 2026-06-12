@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Navigate, Routes, Route } from "react-router-dom";
 import Sidebar from "../sidebar/Sidebar";
 
 import HomePage from "../../pages/HomePage";
@@ -10,6 +10,16 @@ import SignupPage from "../../pages/SignupPage";
 import LoginPage from "../../pages/LoginPage";
 import AIResultPage from "../../pages/AIResultPage";
 
+function HomeRoute() {
+  const accessToken = localStorage.getItem("accessToken");
+
+  if (!accessToken) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <HomePage />;
+}
+
 function ContentLayout() {
   return (
     <div className="content">
@@ -17,7 +27,7 @@ function ContentLayout() {
 
       <div className="main-area">
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomeRoute />} />
           <Route path="/write" element={<WriteDiaryPage />} />
           <Route path="/diaries" element={<DiaryListPage />} />
           <Route path="/stamps" element={<StampCalendarPage />} />
