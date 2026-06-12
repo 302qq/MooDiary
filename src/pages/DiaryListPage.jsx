@@ -13,6 +13,11 @@ const POST_LIST_API_URL = import.meta.env.DEV
   ? "http://15.165.95.129:8080/post?sort=postDate,desc"
   : "/api/post?sort=postDate,desc";
 
+const getPostDeleteApiUrl = (postId) =>
+  import.meta.env.DEV
+    ? `http://15.165.95.129:8080/post/${postId}`
+    : `/api/post/${postId}`;
+
 function DiaryListPage() {
   const [diaries, setDiaries] = useState([]);
   const [selectedDiary, setSelectedDiary] = useState(null);
@@ -218,7 +223,7 @@ function DiaryListPage() {
 
     try {
       const response = await fetch(
-        `/api/post/${selectedDiary.id}`,
+        getPostDeleteApiUrl(selectedDiary.id),
         {
           method: "DELETE",
           headers: {
