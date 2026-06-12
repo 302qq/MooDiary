@@ -18,6 +18,11 @@ const getPostDeleteApiUrl = (postId) =>
     ? `http://15.165.95.129:8080/post/${postId}`
     : `/api/post/${postId}`;
 
+const getPostUpdateApiUrl = (postId) =>
+  import.meta.env.DEV
+    ? `http://15.165.95.129:8080/post/${postId}`
+    : `/api/post/${postId}`;
+
 function DiaryListPage() {
   const [diaries, setDiaries] = useState([]);
   const [selectedDiary, setSelectedDiary] = useState(null);
@@ -155,7 +160,7 @@ function DiaryListPage() {
 
     try {
       const response = await fetch(
-        `/api/post/${selectedDiary.id}`,
+        getPostUpdateApiUrl(selectedDiary.id),
         {
           method: "PUT",
           headers: {

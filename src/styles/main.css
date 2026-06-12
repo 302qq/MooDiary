@@ -1770,7 +1770,7 @@ body {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 22px;
 }
 
 .ai-result-head {
@@ -1821,21 +1821,21 @@ body {
 }
 
 .ai-result-summary {
-  padding: 18px 20px;
-  border: 2px dashed #ffd9e2;
+  padding: 18px 20px 18px 22px;
+  border: 1px solid #ffd9e2;
   border-radius: 14px;
-  background: rgba(255, 209, 220, 0.08);
-  color: #6b6671;
+  background: rgba(255, 209, 220, 0.12);
+  color: #4f4a51;
 }
 
 .ai-result-body {
   flex: 1;
   min-height: 0;
-  padding: 18px 20px;
+  padding: 18px 20px 20px;
   border: 1px solid #ffb6c1;
   border-radius: 16px;
   background: #ffffff;
-  box-shadow: 0 13px 28px rgba(231, 84, 128, 0.08);
+  box-shadow: 0 8px 18px rgba(231, 84, 128, 0.06);
   box-sizing: border-box;
   overflow-y: auto;
   scrollbar-width: thin;
@@ -1862,18 +1862,18 @@ body {
 }
 
 .ai-result-section-card {
-  border: 2px dashed #ffd9e2;
+  border: 1px solid #ffd9e2;
   border-radius: 14px;
-  background: rgba(255, 209, 220, 0.08);
+  background: rgba(255, 209, 220, 0.06);
 }
 
 .ai-result-pink-divider {
-  border-left: 5px solid var(--pink-500);
+  border-left: 4px solid #ff9bb5;
 }
 
 .ai-result-text-section {
-  padding: 18px 18px 20px;
-  margin-bottom: 14px;
+  padding: 18px 18px 19px;
+  margin-bottom: 18px;
 }
 
 .ai-result-text-section:last-child {
@@ -1884,7 +1884,7 @@ body {
 .ai-result-body h3 {
   margin: 0 0 12px;
   color: var(--pink-600);
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 800;
   font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
 }
@@ -1892,9 +1892,10 @@ body {
 .ai-result-summary p,
 .ai-result-body p {
   margin: 0;
-  color: var(--text-strong);
+  color: #4f4f4f;
   font-size: 15px;
-  line-height: 1.9;
+  font-weight: 400;
+  line-height: 1.6;
   white-space: pre-wrap;
 }
 

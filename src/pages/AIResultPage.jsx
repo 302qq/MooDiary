@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getEmotionStamp } from "../services/aiDiaryService";
 
-const HIGHLIGHT_SECTIONS = ["심리 해석", "당신에게 전해줄 말", "도움이 될 만한 활동"];
+const EMPHASIS_SECTIONS = ["당신에게 전해줄 말", "도움이 될 만한 활동"];
 
 const parseAiTextSections = (aiText) => {
   if (!aiText) return [];
@@ -64,7 +64,7 @@ function AIResultPage() {
             </div>
           </div>
 
-          <section className="ai-result-summary ai-result-section-card ai-result-pink-divider">
+          <section className="ai-result-summary ai-result-pink-divider">
             <h3>AI 한마디</h3>
             <p>{aiResult.homeComment || "AI가 오늘의 마음을 정리했어요."}</p>
           </section>
@@ -80,11 +80,8 @@ function AIResultPage() {
                 <section
                   className={
                     "ai-result-text-section" +
-                    (HIGHLIGHT_SECTIONS.includes(section.title)
+                    (EMPHASIS_SECTIONS.includes(section.title)
                       ? " ai-result-section-card"
-                      : "") +
-                    (section.title === "도움이 될 만한 활동"
-                      ? " ai-result-pink-divider"
                       : "")
                   }
                   key={section.title}
