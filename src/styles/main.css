@@ -20,6 +20,8 @@
   --grid-bg:
     linear-gradient(rgba(231, 84, 128, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(231, 84, 128, 0.04) 1px, transparent 1px);
+  --moodiary-cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M5 3l15.5 15-6.5.7 3.9 8.3-3.7 1.7-3.9-8.4-4.9 4.5L5 3z' fill='%23fffdf8' stroke='%23d83f72' stroke-width='2.2' stroke-linejoin='round'/%3E%3Cpath d='M9.1 8.3l7.9 7.7-5 .6 3.1 6.8-1.1.5-3.2-6.8-3.5 3.2z' fill='%23fffdf8' opacity='0.95'/%3E%3C/svg%3E") 4 3;
+  --moodiary-pointer-cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M5 3l14.5 14-6.1.7 3.6 7.9-3.5 1.6-3.7-7.9-4.6 4.2L5 3z' fill='%23fffdf8' stroke='%23d83f72' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M22.7 7.5c1.7-2.3 5.6-.8 5.6 2.3 0 4.2-5.6 7.4-5.6 7.4s-5.6-3.2-5.6-7.4c0-3.1 3.9-4.6 5.6-2.3z' fill='%23ffb6c1' stroke='%23d83f72' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='M19.9 9.7c.7-.8 1.8-.4 2.8.8 1-1.2 2.1-1.6 2.8-.8' fill='none' stroke='%23fffdf8' stroke-width='1.3' stroke-linecap='round'/%3E%3Cpath d='M22.5 19.3l1.1 1.9 2.1.4-1.4 1.6.3 2.2-2.1-.9-2 .9.2-2.2-1.4-1.6 2.2-.4z' fill='%23ffd1dc' stroke='%23d83f72' stroke-width='1' stroke-linejoin='round'/%3E%3C/svg%3E") 5 3;
 }
 
 html,
@@ -66,6 +68,42 @@ body {
     0 20px 60px rgba(231, 84, 128, 0.16);
   outline: 1px solid #e889a0;
   outline-offset: -5px;
+  cursor: var(--moodiary-cursor), auto;
+}
+
+.window button,
+.window a,
+.window [role="button"] {
+  cursor: var(--moodiary-pointer-cursor), pointer;
+}
+
+.window input,
+.window textarea {
+  cursor: text;
+}
+
+.window button:disabled,
+.window [aria-disabled="true"] {
+  cursor: default;
+}
+
+.window .sidebar-menu-item,
+.window .mini-calendar-cell.active,
+.window .diary-item,
+.window .view-all-link,
+.window .write-submit,
+.window .auth-submit,
+.window .diary-view-item,
+.window .detail-action,
+.window .calendar-nav-button,
+.window .calendar-cell.has-stamp {
+  cursor: var(--moodiary-pointer-cursor), pointer;
+}
+
+.window input,
+.window textarea,
+.window .write-date-button {
+  cursor: text;
 }
 
 /* ===== ?곷떒 諛?===== */
@@ -2068,6 +2106,34 @@ body {
 }
 
 .calendar-cell:disabled {
+  cursor: default;
+}
+
+/* ===== MooDiary Cursor Overrides ===== */
+.window button,
+.window a,
+.window [role="button"],
+.window .sidebar-menu-item,
+.window .mini-calendar-cell.active,
+.window .diary-item,
+.window .view-all-link,
+.window .write-submit,
+.window .auth-submit,
+.window .diary-view-item,
+.window .detail-action,
+.window .calendar-nav-button,
+.window .calendar-cell.has-stamp {
+  cursor: var(--moodiary-pointer-cursor), pointer;
+}
+
+.window input,
+.window textarea {
+  cursor: text;
+}
+
+.window button:disabled,
+.window [aria-disabled="true"],
+.window .diary-empty {
   cursor: default;
 }
 @media (max-width: 1024px) {
