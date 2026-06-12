@@ -4,15 +4,21 @@ import { getEmotionStamp } from "../services/aiDiaryService";
 
 const EMPHASIS_SECTIONS = ["당신에게 전해줄 말", "도움이 될 만한 활동"];
 
+const stripOuterQuotes = (value) => {
+  return String(value || "").trim().replace(/^"+|"+$/g, "");
+};
+
 const parseAiTextSections = (aiText) => {
-  if (!aiText) return [];
+  const normalizedAiText = stripOuterQuotes(aiText);
+
+  if (!normalizedAiText) return [];
 
   const sectionPattern =
     /(?:^|\n)\s*(?:\[(심리 해석|당신에게 전해줄 말)\]|💡\s*(도움이 될 만한 활동))\s*:?\s*/g;
-  const matches = [...aiText.matchAll(sectionPattern)];
+  const matches = [...normalizedAiText.matchAll(sectionPattern)];
 
   if (matches.length === 0) {
-    return [{ title: "AI 분석", content: aiText.trim() }];
+    return [{ title: "AI 분석", content: normalizedAiText }];
   }
 
   return matches
@@ -20,11 +26,13 @@ const parseAiTextSections = (aiText) => {
       const title = match[1] || match[2] || "AI 분석";
       const start = match.index + match[0].length;
       const end =
-        index + 1 < matches.length ? matches[index + 1].index : aiText.length;
+        index + 1 < matches.length
+          ? matches[index + 1].index
+          : normalizedAiText.length;
 
       return {
         title,
-        content: aiText.slice(start, end).trim(),
+        content: stripOuterQuotes(normalizedAiText.slice(start, end)),
       };
     })
     .filter((section) => section.content);
@@ -35,7 +43,8 @@ function AIResultPage() {
   const navigate = useNavigate();
   const aiResult = location.state?.aiResult || null;
   const emotionStamp = getEmotionStamp(aiResult?.emotion);
-  const aiSections = parseAiTextSections(aiResult?.aiText || "");
+  const homeComment = stripOuterQuotes(aiResult?.homeComment);
+  const aiSections = parseAiTextSections(aiResult?.aiText);
 
   useEffect(() => {
     if (!aiResult) {
@@ -66,7 +75,7 @@ function AIResultPage() {
 
           <section className="ai-result-summary ai-result-pink-divider">
             <h3>AI 한마디</h3>
-            <p>{aiResult.homeComment || "AI가 오늘의 마음을 정리했어요."}</p>
+            <p>{homeComment || "AI가 오늘의 마음을 정리했어요."}</p>
           </section>
 
           <div className="ai-result-body">
