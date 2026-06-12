@@ -348,11 +348,21 @@ body {
 }
 
 .profile-name {
+  max-width: 100%;
   margin: 0;
+  padding: 4px 12px;
+  border: 1px solid rgba(255, 182, 193, 0.72);
+  border-radius: 999px;
+  background: #fff3f6;
+  box-sizing: border-box;
   color: var(--pink-600);
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 19px;
+  font-weight: 800;
   font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .profile-quote {
@@ -708,8 +718,9 @@ body {
 }
 
 .diary-item-top strong {
-  color: var(--pink-600);
+  color: #d9869a;
   font-size: 14px;
+  font-weight: 700;
 }
 
 .diary-chip {
@@ -723,6 +734,8 @@ body {
 .diary-item p {
   margin: 0 0 8px;
   font-size: 21px;
+  color: var(--pink-600);
+  font-weight: 800;
   font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
 }
 
@@ -1371,19 +1384,23 @@ body {
 
 .diary-view-item.selected {
   border-style: solid;
-  border-color: #ffb6c1;
-  background: linear-gradient(180deg, rgba(255, 243, 246, 0.95) 0%, rgba(255, 232, 238, 0.92) 100%);
-  box-shadow: 0 10px 18px rgba(231, 84, 128, 0.08);
+  border-color: #e75480;
+  background: linear-gradient(180deg, rgba(255, 243, 246, 0.98) 0%, rgba(255, 228, 236, 0.94) 100%);
+  box-shadow: inset 4px 0 0 rgba(231, 84, 128, 0.72), 0 10px 18px rgba(231, 84, 128, 0.12);
 }
 
 .diary-view-item strong {
   display: block;
   margin: 0;
-  color: var(--text-strong);
+  color: var(--pink-600);
   font-size: 17px;
   font-weight: 800;
   font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
   line-height: 1.45;
+}
+
+.diary-view-item.selected strong {
+  color: #d83f72;
 }
 
 .diary-view-item span {
@@ -1486,10 +1503,16 @@ body {
   background: #ffffff;
   box-sizing: border-box;
   box-shadow: 0 13px 28px rgba(231, 84, 128, 0.11);
-  color: var(--text-strong);
-  font-size: 22px;
+  color: #d83f72;
+  font-size: 23px;
+  font-weight: 800;
   font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
   line-height: 1.45;
+}
+
+.detail-title {
+  border-left: 5px solid var(--pink-600);
+  background: linear-gradient(180deg, #ffffff 0%, #fff7fa 100%);
 }
 
 .detail-edit-title,
@@ -1618,8 +1641,9 @@ body {
   border-radius: 14px;
   background: rgba(255, 209, 220, 0.08);
   box-sizing: border-box;
-  color: #6b6671;
+  color: #57515c;
   font-size: 14px;
+  font-weight: 700;
   line-height: 1.8;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
