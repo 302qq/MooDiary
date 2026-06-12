@@ -302,6 +302,11 @@ body {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  background:
+    linear-gradient(90deg, rgba(231, 84, 128, 0.035) 1px, transparent 1px),
+    linear-gradient(rgba(231, 84, 128, 0.035) 1px, transparent 1px),
+    #ffffff;
+  background-size: 18px 18px, 18px 18px, auto;
 }
 
 .profile-frame {
