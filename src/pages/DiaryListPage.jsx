@@ -1,7 +1,16 @@
 ﻿import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import {
+  getDiaryAiResultByDiary,
+  getDiaryAiResult,
+  getEmotionStamp,
+} from "../services/aiDiaryService";
 
 const mockDiaries = [];
+
+const POST_LIST_API_URL = import.meta.env.DEV
+  ? "http://15.165.95.129:8080/post"
+  : "/api/post";
 
 function DiaryListPage() {
   const [diaries, setDiaries] = useState([]);
@@ -15,6 +24,7 @@ function DiaryListPage() {
   const params = new URLSearchParams(location.search);
   const selectedDate = params.get("date");
   const selectedPostId = params.get("postId");
+  const routeAiResult = location.state?.aiResult || null;
 
   const fetchDiaries = async () => {
     const token = localStorage.getItem("accessToken");
@@ -25,7 +35,7 @@ function DiaryListPage() {
     }
 
     try {
-      const response = await fetch("/api/post", {
+      const response = await fetch(POST_LIST_API_URL, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -43,14 +53,31 @@ function DiaryListPage() {
       const data = await response.json();
       console.log("게시글 목록 응답:", data);
 
-      const serverDiaries = data.map((post) => ({
-        id: post.id,
-        title: post.title,
-        date: post.createdAt ? post.createdAt.slice(0, 10) : "날짜 없음",
-        content: post.content,
-        ai: post.ai || "AI가 건넨 한마디...",
-        isMock: false,
-      }));
+      const serverDiaries = data.map((post) => {
+        const cachedAiResult =
+          String(post.id) === String(selectedPostId) && routeAiResult
+            ? routeAiResult
+            : getDiaryAiResult(post.id) ||
+              getDiaryAiResultByDiary({
+                title: post.title,
+                content: post.content,
+              });
+
+        return {
+          id: post.id,
+          title: post.title,
+          date: post.createdAt ? post.createdAt.slice(0, 10) : "날짜 없음",
+          content: post.content,
+          ai:
+            cachedAiResult?.homeComment ||
+            post.homeComment ||
+            post.ai ||
+            "AI가 건넨 한마디...",
+          emotion: cachedAiResult?.emotion || post.emotion || "neutral",
+          homeComment: cachedAiResult?.homeComment || post.homeComment || "",
+          isMock: false,
+        };
+      });
 
       setDiaries(serverDiaries);
     } catch (error) {
@@ -219,6 +246,10 @@ function DiaryListPage() {
     }
   };
 
+  const selectedEmotionStamp = selectedDiary
+    ? getEmotionStamp(selectedDiary.emotion)
+    : null;
+
   return (
     <div className="diary-view-page">
       <div className="diary-view-title">일기 보기</div>
@@ -341,8 +372,15 @@ function DiaryListPage() {
                       <h3>AI 한마디</h3>
                     </div>
                     <div className="detail-ai-box">
-                      <div className="ai-avatar">💗</div>
-                      <div className="ai-comment-box">{selectedDiary.ai}</div>
+                      <div className="ai-avatar">
+                        {selectedEmotionStamp.emoji}
+                      </div>
+                      <div className="ai-comment-box">
+                        <div className="ai-emotion-line">
+                          감정 스탬프: {selectedEmotionStamp.label}
+                        </div>
+                        <div>{selectedDiary.ai}</div>
+                      </div>
                     </div>
                   </section>
                 </>

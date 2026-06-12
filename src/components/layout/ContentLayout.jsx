@@ -8,6 +8,7 @@ import StampCalendarPage from "../../pages/StampCalendarPage";
 import DiaryDetailPage from "../../pages/DiaryDetailPage";
 import SignupPage from "../../pages/SignupPage";
 import LoginPage from "../../pages/LoginPage";
+import AIResultPage from "../../pages/AIResultPage";
 
 function ContentLayout() {
   return (
@@ -24,6 +25,7 @@ function ContentLayout() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/calendar" element={<StampCalendarPage />} />
+          <Route path="/ai-result" element={<AIResultPage />} />
         </Routes>
       </div>
     </div>
