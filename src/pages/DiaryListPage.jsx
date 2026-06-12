@@ -10,8 +10,8 @@ import { getDiaryDisplayDate } from "../utils/diaryDisplay";
 const mockDiaries = [];
 
 const POST_LIST_API_URL = import.meta.env.DEV
-  ? "http://15.165.95.129:8080/post"
-  : "/api/post";
+  ? "http://15.165.95.129:8080/post?sort=postDate,desc"
+  : "/api/post?sort=postDate,desc";
 
 function DiaryListPage() {
   const [diaries, setDiaries] = useState([]);

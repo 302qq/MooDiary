@@ -29,11 +29,12 @@ export const findStoredDiary = (post) => {
 export const getDiaryDisplayDate = (post, aiResult) => {
   const storedDiary = findStoredDiary(post);
   const rawDate =
+    post?.postDate ||
     post?.date ||
     post?.diaryDate ||
-    post?.createdAt ||
     storedDiary?.date ||
     aiResult?.diaryDate ||
+    post?.createdAt ||
     "";
 
   if (!rawDate) {
