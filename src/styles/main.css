@@ -1229,6 +1229,7 @@ body {
   font-size: 13px;
   font-weight: 950;
   letter-spacing: 0.14em;
+  text-shadow: 0 1px 4px rgba(231, 84, 128, 0.18);
 }
 
 .auth-title {
