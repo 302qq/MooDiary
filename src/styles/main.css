@@ -1335,10 +1335,10 @@ body {
 
 .diary-view-list-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 18px 18px 14px;
+  gap: 16px;
+  padding: 17px 18px 15px;
   border-bottom: 2px solid rgba(255, 182, 193, 0.92);
   background: linear-gradient(180deg, rgba(255, 249, 251, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%);
 }
@@ -1349,6 +1349,24 @@ body {
   font-size: 17px;
   font-weight: 800;
   font-family: "NanumGothicBold", "Malgun Gothic", sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.2;
+}
+
+.diary-view-header-icon {
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgba(255, 182, 193, 0.72);
+  border-radius: 8px;
+  background: #fff3f6;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 0 #ffd1dc;
+  font-size: 14px;
+  line-height: 1;
 }
 
 .diary-view-list-header p {
@@ -1357,12 +1375,14 @@ body {
 
 .diary-view-count {
   flex-shrink: 0;
-  padding: 5px 10px;
+  padding: 6px 12px;
   border-radius: 999px;
-  background: #fff3f6;
+  background: linear-gradient(180deg, #fff7fa 0%, #ffe8ef 100%);
+  border: 1px solid rgba(255, 182, 193, 0.82);
   color: var(--pink-600);
   font-size: 12px;
   font-weight: 800;
+  box-shadow: 2px 2px 0 rgba(255, 209, 220, 0.75);
 }
 
 .diary-view-list {

@@ -264,10 +264,15 @@ function DiaryListPage() {
         <section className="diary-view-list-panel">
           <div className="diary-view-list-header">
             <div>
-              <h2>일기 목록</h2>
+              <h2>
+                <span className="diary-view-header-icon">📒</span>
+                일기 목록
+              </h2>
               <p>마음을 적어둔 하루를 다시 펼쳐보세요.</p>
             </div>
-            <span className="diary-view-count">{filteredDiaries.length}편</span>
+            <span className="diary-view-count">
+              총 {filteredDiaries.length}편
+            </span>
           </div>
 
           <div className="diary-view-list">
