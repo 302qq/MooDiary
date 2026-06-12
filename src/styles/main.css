@@ -184,6 +184,66 @@ body {
     inset 1px 1px 0 rgba(156, 60, 88, 0.28);
 }
 
+.logout-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(90, 42, 62, 0.2);
+}
+
+.logout-confirm-dialog {
+  width: min(320px, calc(100vw - 48px));
+  padding: 26px 24px 22px;
+  border: 4px solid #ff9aa2;
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 244, 247, 0.94)),
+    #fff9fb;
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.9),
+    inset -2px -2px 0 rgba(210, 96, 126, 0.22),
+    0 18px 44px rgba(231, 84, 128, 0.26);
+  text-align: center;
+}
+
+.logout-confirm-message {
+  margin: 0 0 20px;
+  color: #9f3f5d;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.logout-confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.logout-confirm-actions button {
+  min-width: 88px;
+  height: 36px;
+  border: 1px solid #cf6f87;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #fff8fb 0%, #ffd7e0 48%, #f7a7b8 100%);
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.9),
+    inset -1px -1px 0 rgba(169, 71, 101, 0.24),
+    0 1px 0 rgba(141, 56, 82, 0.2);
+  color: #9f3f5d;
+  font-weight: 800;
+}
+
+.logout-confirm-actions button:first-child {
+  background: linear-gradient(180deg, #ffb9c8 0%, #ff8ca6 48%, #e75480 100%);
+  border-color: #b94668;
+  color: #fffdf8;
+  text-shadow: 0 1px 0 rgba(118, 39, 70, 0.5);
+}
+
 .menu-bar {
   height: 8px;
   background: linear-gradient(180deg, #fff5f8 0%, #ffe4eb 100%);
