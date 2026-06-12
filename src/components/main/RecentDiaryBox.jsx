@@ -5,6 +5,7 @@ import {
   getDiaryAiResult,
   getLatestDiaryAiResult,
 } from "../../services/aiDiaryService";
+import { getDiaryDisplayDate } from "../../utils/diaryDisplay";
 
 const POST_LIST_API_URL = import.meta.env.DEV
   ? "http://15.165.95.129:8080/post"
@@ -51,7 +52,7 @@ function RecentDiaryBox() {
           return {
             id: post.id,
             title: post.title,
-            date: post.createdAt ? post.createdAt.slice(0, 10) : "날짜 없음",
+            date: getDiaryDisplayDate(post, cachedAiResult),
             content: post.content,
             ai:
               cachedAiResult?.homeComment ||

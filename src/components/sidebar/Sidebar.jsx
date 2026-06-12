@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import MiniCalendar from "./MiniCalendar";
 import profileImage from "../../assets/profile_imge.jpg";
+import { getDisplayNickname } from "../../utils/userDisplay";
 
 function Sidebar() {
   const navigate = useNavigate();
+  const nickname = getDisplayNickname();
 
   return (
     <aside className="sidebar">
@@ -23,7 +25,7 @@ function Sidebar() {
             </div>
           </div>
         </div>
-        <p className="profile-name">MooDiary 사용자</p>
+        <p className="profile-name">{nickname}</p>
         <span className="profile-quote">오늘도 포근한 하루가 되기를</span>
       </div>
 

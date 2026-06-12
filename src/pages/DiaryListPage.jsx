@@ -5,6 +5,7 @@ import {
   getDiaryAiResult,
   getEmotionStamp,
 } from "../services/aiDiaryService";
+import { getDiaryDisplayDate } from "../utils/diaryDisplay";
 
 const mockDiaries = [];
 
@@ -66,7 +67,7 @@ function DiaryListPage() {
         return {
           id: post.id,
           title: post.title,
-          date: post.createdAt ? post.createdAt.slice(0, 10) : "날짜 없음",
+          date: getDiaryDisplayDate(post, cachedAiResult),
           content: post.content,
           ai:
             cachedAiResult?.homeComment ||
