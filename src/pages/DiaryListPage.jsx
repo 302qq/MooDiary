@@ -378,15 +378,15 @@ function DiaryListPage() {
                       <h3>AI 한마디</h3>
                     </div>
                     <div className="detail-ai-box">
-                      <div className="ai-avatar">
-                        {selectedEmotionStamp.emoji}
-                      </div>
-                      <div className="ai-comment-box">
-                        <div className="ai-emotion-line">
-                          감정 스탬프: {selectedEmotionStamp.label}
+                      <div className="ai-stamp-wrap">
+                        <div className="ai-avatar">
+                          {selectedEmotionStamp.emoji}
                         </div>
-                        <div>{selectedDiary.ai}</div>
+                        <div className="ai-emotion-line">
+                          {selectedEmotionStamp.label}
+                        </div>
                       </div>
+                      <div className="ai-comment-box">{selectedDiary.ai}</div>
                     </div>
                   </section>
                 </>
