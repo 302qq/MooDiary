@@ -1,5 +1,40 @@
 ﻿import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getDiaryDisplayDate } from "../utils/diaryDisplay";
+
+const CALENDAR_API_URL = (year, month) =>
+  import.meta.env.DEV
+    ? `http://15.165.95.129:8080/calendar?year=${year}&month=${month}`
+    : `/api/calendar?year=${year}&month=${month}`;
+
+const POST_LIST_API_URL = import.meta.env.DEV
+  ? "http://15.165.95.129:8080/post?sort=postDate,desc"
+  : "/api/post?sort=postDate,desc";
+
+const getDiaryId = (item) =>
+  item?.postId ??
+  item?.post_id ??
+  item?.id ??
+  item?.diaryId ??
+  item?.diary_id ??
+  item?.post?.id ??
+  item?.diary?.id ??
+  "";
+
+const getDateKey = (value) => {
+  if (!value) return "";
+
+  const text = String(value).trim();
+  const dateMatch = text.match(/^\d{4}-\d{2}-\d{2}/);
+
+  return dateMatch ? dateMatch[0] : text;
+};
+
+const getCalendarItemDate = (item) =>
+  getDateKey(item?.date || item?.postDate || item?.diaryDate);
+
+const isSameMonth = (date, year, month) =>
+  date.startsWith(`${year}-${String(month).padStart(2, "0")}-`);
 
 function StampCalendarPage() {
   const navigate = useNavigate();
@@ -21,33 +56,62 @@ function StampCalendarPage() {
       }
 
       try {
-        const response = await fetch(
-          `/api/calendar?year=${year}&month=${month + 1}`,
-          {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        const [calendarResponse, postResponse] = await Promise.all([
+          fetch(CALENDAR_API_URL(year, month + 1), {
             method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+            headers,
+          }),
+          fetch(POST_LIST_API_URL, {
+            method: "GET",
+            headers,
+          }),
+        ]);
 
-        console.log("캘린더 조회 상태코드:", response.status);
+        console.log("캘린더 조회 상태코드:", calendarResponse.status);
 
-        if (!response.ok) {
-          const errorText = await response.text();
+        if (!calendarResponse.ok) {
+          const errorText = await calendarResponse.text();
           console.log("캘린더 조회 실패 응답:", errorText);
           throw new Error("캘린더 조회 실패");
         }
 
-        const data = await response.json();
-        console.log("캘린더 조회 응답:", data);
+        if (!postResponse.ok) {
+          const errorText = await postResponse.text();
+          console.log("게시글 목록 조회 실패 응답:", errorText);
+          throw new Error("게시글 목록 조회 실패");
+        }
+
+        const calendarData = await calendarResponse.json();
+        const posts = await postResponse.json();
+        const calendarByPostId = {};
+
+        calendarData.forEach((item) => {
+          const diaryId = getDiaryId(item);
+          const date = getCalendarItemDate(item);
+
+          if (!diaryId) return;
+
+          calendarByPostId[String(diaryId)] = {
+            date,
+            emoji: item.emoji || "",
+          };
+        });
 
         const map = {};
 
-        data.forEach((item) => {
-          map[item.date] = {
-            emoji: item.emoji || "🫧",
-            postId: item.postId,
+        posts.forEach((post) => {
+          const diaryId = getDiaryId(post);
+          const date = getDateKey(getDiaryDisplayDate(post));
+
+          if (!diaryId || !date || !isSameMonth(date, year, month + 1)) return;
+
+          map[date] = {
+            emoji: calendarByPostId[String(diaryId)]?.emoji || post.emoji || "",
+            diaryId,
           };
         });
 
@@ -94,7 +158,7 @@ function StampCalendarPage() {
 
     const diary = diaryMap[date];
 
-    if (diary) {
+    if (diary?.diaryId) {
       navigate(`/diaries?date=${date}`);
     }
   };
@@ -149,7 +213,7 @@ function StampCalendarPage() {
 
               const diary = diaryMap[date];
               const stamp = diary?.emoji;
-              const isActive = Boolean(stamp);
+              const isActive = Boolean(diary?.diaryId);
               const dayOfWeek = index % 7;
 
               return (

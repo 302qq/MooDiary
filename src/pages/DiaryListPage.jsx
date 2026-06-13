@@ -1,5 +1,6 @@
 ﻿import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useMemo } from "react";
 import {
   getDiaryAiResultByDiary,
   getDiaryAiResult,
@@ -22,6 +23,45 @@ const getPostUpdateApiUrl = (postId) =>
   import.meta.env.DEV
     ? `http://15.165.95.129:8080/post/${postId}`
     : `/api/post/${postId}`;
+
+const normalizeDateValue = (value) => {
+  if (!value) return "";
+
+  const text = String(value).trim();
+  const dateMatch = text.match(/^\d{4}-\d{2}-\d{2}/);
+
+  return dateMatch ? dateMatch[0] : text;
+};
+
+const getDiaryDateForUpdate = (diary) =>
+  normalizeDateValue(diary?.postDate || diary?.diaryDate || diary?.date);
+
+const updateStoredDiary = (updatedDiary) => {
+  try {
+    const savedDiaries = JSON.parse(localStorage.getItem("diaries")) || [];
+    const hasStoredDiary = savedDiaries.some(
+      (diary) => String(diary.id) === String(updatedDiary.id)
+    );
+
+    const updatedStoredDiaries = hasStoredDiary
+      ? savedDiaries.map((diary) =>
+          String(diary.id) === String(updatedDiary.id)
+            ? {
+                ...diary,
+                title: updatedDiary.title,
+                content: updatedDiary.content,
+                date: updatedDiary.date,
+              }
+            : diary
+        )
+      : [updatedDiary, ...savedDiaries];
+
+    localStorage.setItem("diaries", JSON.stringify(updatedStoredDiaries));
+    window.dispatchEvent(new Event("diariesUpdated"));
+  } catch (error) {
+    console.warn("저장된 일기 날짜 정보를 갱신하지 못했습니다.", error);
+  }
+};
 
 function DiaryListPage() {
   const [diaries, setDiaries] = useState([]);
@@ -77,6 +117,8 @@ function DiaryListPage() {
           id: post.id,
           title: post.title,
           date: getDiaryDisplayDate(post, cachedAiResult),
+          postDate: post.postDate,
+          diaryDate: post.diaryDate,
           content: post.content,
           ai:
             cachedAiResult?.homeComment ||
@@ -100,9 +142,11 @@ function DiaryListPage() {
     fetchDiaries();
   }, []);
 
-  const filteredDiaries = selectedDate
-    ? diaries.filter((d) => d.date === selectedDate)
-    : diaries;
+  const filteredDiaries = useMemo(
+    () =>
+      selectedDate ? diaries.filter((d) => d.date === selectedDate) : diaries,
+    [diaries, selectedDate]
+  );
 
   useEffect(() => {
     if (selectedPostId) {
@@ -158,6 +202,8 @@ function DiaryListPage() {
     }
 
     try {
+      const postDate = getDiaryDateForUpdate(selectedDiary);
+
       const response = await fetch(
         getPostUpdateApiUrl(selectedDiary.id),
         {
@@ -169,6 +215,7 @@ function DiaryListPage() {
           body: JSON.stringify({
             title: editTitle,
             content: editContent,
+            postDate,
           }),
         }
       );
@@ -189,16 +236,23 @@ function DiaryListPage() {
               ...diary,
               title: editTitle,
               content: editContent,
+              date: postDate || diary.date,
+              postDate: postDate || diary.postDate,
             }
           : diary
       );
 
       setDiaries(updatedDiaries);
-      setSelectedDiary({
+      const updatedSelectedDiary = {
         ...selectedDiary,
         title: editTitle,
         content: editContent,
-      });
+        date: postDate || selectedDiary.date,
+        postDate: postDate || selectedDiary.postDate,
+      };
+
+      setSelectedDiary(updatedSelectedDiary);
+      updateStoredDiary(updatedSelectedDiary);
 
       setIsEditing(false);
     } catch (error) {
