@@ -62,7 +62,6 @@ function DiaryListPage() {
       }
 
       const data = await response.json();
-      console.log("게시글 목록 응답:", data);
 
       const serverDiaries = data.map((post) => {
         const cachedAiResult =

@@ -22,7 +22,6 @@ const logCreatedPostDate = async (postId, token) => {
     });
 
     const data = await response.json();
-    console.log("생성 직후 게시글 단건 조회 응답:", data);
     console.log("생성 직후 게시글 postDate:", data?.postDate);
   } catch (error) {
     console.warn("생성 직후 게시글 postDate 확인 실패:", error);
@@ -60,8 +59,6 @@ function WriteDiaryPage() {
       if (selectedDate) {
         postPayload.postDate = selectedDate;
       }
-
-      console.log("게시글 등록 요청 payload:", postPayload);
 
       const response = await fetch(POST_API_URL, {
         method: "POST",

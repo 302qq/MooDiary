@@ -39,7 +39,6 @@ function RecentDiaryBox() {
         }
 
         const data = await response.json();
-        console.log("최근 일기 응답:", data);
 
         const diaries = data.map((post) => {
           const cachedAiResult =

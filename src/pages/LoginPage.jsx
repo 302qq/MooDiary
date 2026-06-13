@@ -42,7 +42,6 @@ function LoginPage() {
       const data = await readResponseBody(response);
       console.log("로그인 요청 URL:", LOGIN_API_URL);
       console.log("로그인 상태코드:", response.status);
-      console.log("로그인 응답:", data);
 
       if (!response.ok) {
         alert("로그인에 실패했습니다.");
