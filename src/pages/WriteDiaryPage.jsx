@@ -5,28 +5,11 @@ import {
   requestDiaryAi,
   saveDiaryAiResult,
 } from "../services/aiDiaryService";
+import AppModal from "../components/common/AppModal";
 
 const POST_API_URL = import.meta.env.DEV
   ? "http://15.165.95.129:8080/post"
   : "/api/post";
-
-const logCreatedPostDate = async (postId, token) => {
-  if (!import.meta.env.DEV || !postId) return;
-
-  try {
-    const response = await fetch(`${POST_API_URL}/${postId}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const data = await response.json();
-    console.log("생성 직후 게시글 postDate:", data?.postDate);
-  } catch (error) {
-    console.warn("생성 직후 게시글 postDate 확인 실패:", error);
-  }
-};
 
 function WriteDiaryPage() {
   const navigate = useNavigate();
@@ -35,8 +18,12 @@ function WriteDiaryPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [aiComment, setAiComment] = useState("");
+  const [successModal, setSuccessModal] = useState(null);
+  const [isPublishing, setIsPublishing] = useState(false);
 
   const handlePublish = async () => {
+    if (isPublishing) return;
+
     if (!title.trim() || !content.trim()) {
       alert("제목과 내용을 입력해주세요.");
       return;
@@ -49,6 +36,8 @@ function WriteDiaryPage() {
       navigate("/login");
       return;
     }
+
+    setIsPublishing(true);
 
     try {
       const postPayload = {
@@ -69,17 +58,11 @@ function WriteDiaryPage() {
         body: JSON.stringify(postPayload),
       });
 
-      console.log("게시글 등록 상태코드:", response.status);
-
       if (!response.ok) {
-        const errorText = await response.text();
-        console.log("게시글 등록 실패 응답:", errorText);
         throw new Error("게시글 등록 API 요청 실패");
       }
 
       const postId = (await response.text()).trim();
-      console.log("생성된 게시글 ID:", postId);
-      await logCreatedPostDate(postId, token);
       const diaryId = postId || String(Date.now());
 
       let aiResult = null;
@@ -96,8 +79,7 @@ function WriteDiaryPage() {
           diaryContent: content,
         };
         saveDiaryAiResult(diaryId, aiResult);
-      } catch (aiError) {
-        console.error("AI 응답 생성 실패:", aiError);
+      } catch {
       }
 
       const newDiary = {
@@ -116,21 +98,18 @@ function WriteDiaryPage() {
 
       setAiComment(newDiary.ai);
 
-      alert("일기가 등록되었습니다.");
-      navigate("/ai-result", {
-        state: {
-          aiResult,
-        },
-      });
-    } catch (error) {
-      console.error("게시글 등록 실패:", error);
+      setSuccessModal({ aiResult });
+    } catch {
       alert("서버 등록에 실패했습니다. 로그 상태 또는 백엔드 서버를 확인해주세요.");
+    } finally {
+      setIsPublishing(false);
     }
   };
 
   return (
-    <div className="write-wrapper">
-      <div className="write-page-title">오늘의 일기</div>
+    <>
+      <div className="write-wrapper">
+        <div className="write-page-title">오늘의 일기</div>
 
       <div className="date-area">
         <input
@@ -159,8 +138,13 @@ function WriteDiaryPage() {
       />
 
       <div className="write-button-area">
-        <button type="button" className="write-submit" onClick={handlePublish}>
-          발행하기
+        <button
+          type="button"
+          className="write-submit"
+          onClick={handlePublish}
+          disabled={isPublishing}
+        >
+          {isPublishing ? "처리 중..." : "발행하기"}
         </button>
       </div>
 
@@ -168,7 +152,48 @@ function WriteDiaryPage() {
         <div className="ai-avatar">💗</div>
         <div className="ai-comment-box">{aiComment || "AI 한마디"}</div>
       </div>
-    </div>
+      </div>
+
+      {isPublishing && (
+        <div className="logout-confirm-overlay" role="presentation">
+          <div
+            className="logout-confirm-dialog diary-loading-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="diary-loading-title"
+          >
+            <div className="diary-loading-mark" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </div>
+            <p id="diary-loading-title" className="logout-confirm-message">
+              AI가 일기를 읽고 있어요...
+            </p>
+            <div className="diary-loading-dots" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {successModal && (
+        <AppModal
+          message="일기가 등록되었습니다."
+          onConfirm={() => {
+            const aiResult = successModal.aiResult;
+            setSuccessModal(null);
+            navigate("/ai-result", {
+              state: {
+                aiResult,
+              },
+            });
+          }}
+        />
+      )}
+    </>
   );
 }
 

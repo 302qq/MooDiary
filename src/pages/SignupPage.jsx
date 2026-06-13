@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import AppModal from "../components/common/AppModal";
 
 function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
   const signupUrl = import.meta.env.DEV
     ? "http://15.165.95.129:8080/auth/signup"
     : "/api/auth/signup";
@@ -27,16 +29,16 @@ function SignupPage() {
         throw new Error("회원가입 실패");
       }
 
-      alert("회원가입 성공!");
-    } catch (error) {
-      console.error(error);
-      alert("회원가입 실패");
+      setModalMessage("회원가입 성공!");
+    } catch {
+      setModalMessage("회원가입 실패");
     }
   };
 
   return (
-    <section className="auth-page">
-      <div className="auth-card signup-card">
+    <>
+      <section className="auth-page">
+        <div className="auth-card signup-card">
         <p className="auth-kicker">MOODIARY</p>
         <h1 className="auth-title">회원가입</h1>
 
@@ -90,8 +92,16 @@ function SignupPage() {
           <span>이미 계정이 있나요?</span>
           <Link to="/login">로그인</Link>
         </div>
-      </div>
-    </section>
+        </div>
+      </section>
+
+      {modalMessage && (
+        <AppModal
+          message={modalMessage}
+          onConfirm={() => setModalMessage("")}
+        />
+      )}
+    </>
   );
 }
 

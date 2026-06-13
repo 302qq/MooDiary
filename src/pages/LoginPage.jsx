@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import AppModal from "../components/common/AppModal";
 
 const LOGIN_API_URL = import.meta.env.DEV
   ? "http://15.165.95.129:8080/auth/login"
@@ -14,8 +15,7 @@ const readResponseBody = async (response) => {
 
   try {
     return JSON.parse(text);
-  } catch (error) {
-    console.warn("로그인 응답을 JSON으로 해석하지 못했습니다.", error);
+  } catch {
     return text;
   }
 };
@@ -25,6 +25,13 @@ function LoginPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [modal, setModal] = useState(null);
+
+  const closeModal = () => {
+    const onClose = modal?.onClose;
+    setModal(null);
+    onClose?.();
+  };
 
   const handleLogin = async () => {
     try {
@@ -40,11 +47,9 @@ function LoginPage() {
       });
 
       const data = await readResponseBody(response);
-      console.log("로그인 요청 URL:", LOGIN_API_URL);
-      console.log("로그인 상태코드:", response.status);
 
       if (!response.ok) {
-        alert("로그인에 실패했습니다.");
+        setModal({ message: "로그인에 실패했습니다." });
         return;
       }
 
@@ -59,17 +64,19 @@ function LoginPage() {
         localStorage.setItem("nickname", data.nickname);
       }
 
-      alert("로그인 성공!");
-      navigate("/");
-    } catch (error) {
-      console.error("로그인 오류:", error);
+      setModal({
+        message: "로그인 성공!",
+        onClose: () => navigate("/"),
+      });
+    } catch {
       alert("로그인 중 오류가 발생했습니다.");
     }
   };
 
   return (
-    <section className="auth-page">
-      <div className="auth-card">
+    <>
+      <section className="auth-page">
+        <div className="auth-card">
         <p className="auth-kicker">MOODIARY</p>
         <h1 className="auth-title">로그인</h1>
 
@@ -113,8 +120,11 @@ function LoginPage() {
           <span className="auth-muted-link">아이디 · 비밀번호 찾기</span>
           <Link to="/signup">회원가입</Link>
         </div>
-      </div>
-    </section>
+        </div>
+      </section>
+
+      {modal && <AppModal message={modal.message} onConfirm={closeModal} />}
+    </>
   );
 }
 

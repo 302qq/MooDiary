@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import AppModal from "../common/AppModal";
 
 const LOGIN_STORAGE_KEYS = ["accessToken", "refreshToken", "userId", "nickname"];
 
@@ -42,27 +43,12 @@ function TitleBar() {
       </div>
 
       {showLogoutConfirm && (
-        <div className="logout-confirm-overlay" role="presentation">
-          <div
-            className="logout-confirm-dialog"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="logout-confirm-title"
-          >
-            <p id="logout-confirm-title" className="logout-confirm-message">
-              로그아웃 하시겠습니까?
-            </p>
-
-            <div className="logout-confirm-actions">
-              <button type="button" onClick={handleLogoutConfirm}>
-                확인
-              </button>
-              <button type="button" onClick={() => setShowLogoutConfirm(false)}>
-                취소
-              </button>
-            </div>
-          </div>
-        </div>
+        <AppModal
+          message="로그아웃 하시겠습니까?"
+          onConfirm={handleLogoutConfirm}
+          cancelText="취소"
+          onCancel={() => setShowLogoutConfirm(false)}
+        />
       )}
     </>
   );

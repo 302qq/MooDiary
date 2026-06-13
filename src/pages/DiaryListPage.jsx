@@ -7,6 +7,7 @@ import {
   getEmotionStamp,
 } from "../services/aiDiaryService";
 import { getDiaryDisplayDate } from "../utils/diaryDisplay";
+import AppModal from "../components/common/AppModal";
 
 const mockDiaries = [];
 
@@ -58,8 +59,7 @@ const updateStoredDiary = (updatedDiary) => {
 
     localStorage.setItem("diaries", JSON.stringify(updatedStoredDiaries));
     window.dispatchEvent(new Event("diariesUpdated"));
-  } catch (error) {
-    console.warn("저장된 일기 날짜 정보를 갱신하지 못했습니다.", error);
+  } catch {
   }
 };
 
@@ -70,6 +70,13 @@ function DiaryListPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState("");
   const [editContent, setEditContent] = useState("");
+  const [modal, setModal] = useState(null);
+
+  const closeModal = () => {
+    const onClose = modal?.onClose;
+    setModal(null);
+    onClose?.();
+  };
 
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -93,11 +100,7 @@ function DiaryListPage() {
         },
       });
 
-      console.log("게시글 목록 조회 상태코드:", response.status);
-
       if (!response.ok) {
-        const errorText = await response.text();
-        console.log("목록 조회 실패 응답:", errorText);
         throw new Error("게시글 목록 조회 실패");
       }
 
@@ -132,8 +135,7 @@ function DiaryListPage() {
       });
 
       setDiaries(serverDiaries);
-    } catch (error) {
-      console.error("게시글 목록 조회 실패:", error);
+    } catch {
       setDiaries(mockDiaries);
     }
   };
@@ -220,15 +222,9 @@ function DiaryListPage() {
         }
       );
 
-      console.log("게시글 수정 상태코드:", response.status);
-
       if (!response.ok) {
-        const errorText = await response.text();
-        console.log("수정 실패 응답:", errorText);
         throw new Error("게시글 수정 실패");
       }
-
-      alert("수정되었습니다.");
 
       const updatedDiaries = diaries.map((diary) =>
         diary.id === selectedDiary.id
@@ -255,8 +251,8 @@ function DiaryListPage() {
       updateStoredDiary(updatedSelectedDiary);
 
       setIsEditing(false);
-    } catch (error) {
-      console.error("게시글 수정 실패:", error);
+      setModal({ message: "수정되었습니다." });
+    } catch {
       alert("수정에 실패했습니다.");
     }
   };
@@ -269,8 +265,15 @@ function DiaryListPage() {
       return;
     }
 
-    const confirmDelete = window.confirm("이 일기를 삭제할까요?");
-    if (!confirmDelete) return;
+    setModal({
+      message: "이 일기를 삭제할까요?",
+      cancelText: "취소",
+      onClose: () => deleteSelectedDiary(selectedDiary),
+    });
+  };
+
+  const deleteSelectedDiary = async (diaryToDelete) => {
+    if (!diaryToDelete) return;
 
     const token = localStorage.getItem("accessToken");
 
@@ -281,7 +284,7 @@ function DiaryListPage() {
 
     try {
       const response = await fetch(
-        getPostDeleteApiUrl(selectedDiary.id),
+        getPostDeleteApiUrl(diaryToDelete.id),
         {
           method: "DELETE",
           headers: {
@@ -290,22 +293,16 @@ function DiaryListPage() {
         }
       );
 
-      console.log("게시글 삭제 상태코드:", response.status);
-
       if (!response.ok) {
-        const errorText = await response.text();
-        console.log("삭제 실패 응답:", errorText);
         throw new Error("게시글 삭제 실패");
       }
 
-      alert("삭제되었습니다.");
-
-      const updatedDiaries = diaries.filter((d) => d.id !== selectedDiary.id);
+      const updatedDiaries = diaries.filter((d) => d.id !== diaryToDelete.id);
       setDiaries(updatedDiaries);
       setSelectedDiary(updatedDiaries[0] || null);
       setIsEditing(false);
-    } catch (error) {
-      console.error("게시글 삭제 실패:", error);
+      setModal({ message: "삭제되었습니다." });
+    } catch {
       alert("삭제에 실패했습니다.");
     }
   };
@@ -315,8 +312,9 @@ function DiaryListPage() {
     : null;
 
   return (
-    <div className="diary-view-page">
-      <div className="diary-view-title">일기 보기</div>
+    <>
+      <div className="diary-view-page">
+        <div className="diary-view-title">일기 보기</div>
 
       <div className="diary-view-layout">
         <section className="diary-view-list-panel">
@@ -457,8 +455,18 @@ function DiaryListPage() {
             </div>
           )}
         </section>
+        </div>
       </div>
-    </div>
+
+      {modal && (
+        <AppModal
+          message={modal.message}
+          onConfirm={closeModal}
+          cancelText={modal.cancelText}
+          onCancel={() => setModal(null)}
+        />
+      )}
+    </>
   );
 }
 
