@@ -594,6 +594,7 @@ body {
 }
 
 .mini-calendar-cell {
+  position: relative;
   min-height: 0;
   border: 1px solid rgba(255, 202, 215, 0.72);
   border-radius: 9px;
@@ -608,6 +609,8 @@ body {
 
 .mini-calendar-cell.active {
   cursor: pointer;
+  border-color: rgba(231, 84, 128, 0.54);
+  background: rgba(255, 236, 242, 0.92);
 }
 
 .mini-calendar-cell.active:hover {
@@ -619,11 +622,29 @@ body {
   color: inherit;
 }
 
+.mini-calendar-cell.active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--pink-600);
+  transform: translateX(-50%);
+}
+
+.mini-date-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 16px;
+}
+
 .mini-date {
   font-size: 10px;
   font-weight: 700;
   line-height: 1;
-  margin-bottom: 3px;
   color: #6f6874;
 }
 

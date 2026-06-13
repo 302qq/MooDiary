@@ -1,7 +1,34 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getDiaryDisplayDate } from "../../utils/diaryDisplay";
 
 const DAY_LABELS = ["S", "M", "T", "W", "T", "F", "S"];
+
+const POST_LIST_API_URL = import.meta.env.DEV
+  ? "http://15.165.95.129:8080/post?sort=postDate,desc"
+  : "/api/post?sort=postDate,desc";
+
+const getDiaryId = (item) =>
+  item?.postId ??
+  item?.post_id ??
+  item?.id ??
+  item?.diaryId ??
+  item?.diary_id ??
+  item?.post?.id ??
+  item?.diary?.id ??
+  "";
+
+const getDateKey = (value) => {
+  if (!value) return "";
+
+  const text = String(value).trim();
+  const dateMatch = text.match(/^\d{4}-\d{2}-\d{2}/);
+
+  return dateMatch ? dateMatch[0] : text;
+};
+
+const isSameMonth = (date, year, month) =>
+  date.startsWith(`${year}-${String(month).padStart(2, "0")}-`);
 
 function MiniCalendar() {
   const navigate = useNavigate();
@@ -18,37 +45,34 @@ function MiniCalendar() {
     if (!token) return;
 
     try {
-      const response = await fetch(
-        `/api/calendar?year=${year}&month=${month + 1}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      console.log("미니 캘린더 조회 상태코드:", response.status);
+      const response = await fetch(POST_LIST_API_URL, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("미니 캘린더 조회 실패");
       }
 
       const data = await response.json();
-      console.log("미니 캘린더 응답:", data);
 
       const map = {};
 
-      data.forEach((item) => {
-        map[item.date] = {
-          emoji: item.emoji || "📝",
-          postId: item.postId,
+      data.forEach((post) => {
+        const diaryId = getDiaryId(post);
+        const date = getDateKey(getDiaryDisplayDate(post));
+
+        if (!diaryId || !date || !isSameMonth(date, year, month + 1)) return;
+
+        map[date] = {
+          diaryId,
         };
       });
 
       setDiaryMap(map);
     } catch (error) {
-      console.error("미니 캘린더 조회 실패:", error);
       setDiaryMap({});
     }
   };
@@ -79,11 +103,9 @@ function MiniCalendar() {
       day
     ).padStart(2, "0")}`;
 
-    const diary = diaryMap[date];
+    if (!diaryMap[date]?.diaryId) return;
 
-    if (!diary) return;
-
-    navigate(`/diaries?postId=${diary.postId}`);
+    navigate(`/diaries?date=${date}`);
   };
 
   return (
@@ -126,21 +148,20 @@ function MiniCalendar() {
             : "";
 
           const diary = diaryMap[date];
-          const stamp = diary?.emoji;
+          const hasDiary = Boolean(diary?.diaryId);
 
           return (
             <button
               key={index}
               type="button"
-              className={`mini-calendar-cell ${stamp ? "active" : ""}`}
+              className={`mini-calendar-cell ${hasDiary ? "active" : ""}`}
               onClick={() => handleDateClick(day)}
-              disabled={!stamp}
+              disabled={!day || !hasDiary}
             >
               {day && (
-                <>
+                <div className="mini-date-wrap">
                   <div className="mini-date">{day}</div>
-                  <div className="mini-stamp">{stamp}</div>
-                </>
+                </div>
               )}
             </button>
           );
