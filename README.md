@@ -1,25 +1,318 @@
-# React + Vite
+# MooDiary
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+AI 기반 감정 분석 일기 서비스
 
-Currently, two official plugins are available:
+## 프로젝트 소개
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+MooDiary는 사용자가 하루를 기록하고 감정을 돌아볼 수 있는 AI 기반 감정 일기 서비스입니다.
 
-## React Compiler
+사용자는 일기를 작성·수정·삭제할 수 있으며, 일기 작성 시 AI가 감정을 분석하고 공감 메시지를 제공합니다.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+또한 달력 화면을 통해 일기를 작성한 날짜를 확인할 수 있으며, 특정 날짜를 선택하여 해당 날짜의 일기 목록을 조회할 수 있습니다.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 개발 기간
 
-//이미지 출처
-https://pixabay.com/ko/illustrations/%ea%b3%a0%ec%96%91%ec%9d%b4-%ec%a3%bc%eb%b0%a9-png-%ea%b7%b8%eb%a6%bc-8762411/
+2026.03 ~ 2026.06
 
-//폰트 출처
-네이버에서 제공한 나눔글꼴이 적용되어 있습니다.
+---
 
-//이미지 출처
-https://www.pexels.com/ko-kr/photo/16371565/
+## 기술 스택
+
+### Frontend
+
+* React
+* Vite
+* React Router DOM
+* CSS
+
+## 개발 및 협업 도구
+
+### Design
+- Figma
+- Stitch
+
+### Backend
+
+* Spring Boot
+* JWT Authentication
+
+### AI
+
+* Hugging Face Space 기반 AI API
+
+### Frontend Deployment
+
+* Vercel
+
+---
+
+## 주요 기능
+
+### 회원가입 / 로그인
+
+* JWT 기반 사용자 인증
+* 로그인 상태 유지
+
+### 일기 관리
+
+* 일기 작성
+* 일기 조회
+* 일기 수정
+* 일기 삭제
+
+### AI 감정 분석
+
+* 작성한 일기 내용을 AI 서버로 전송
+* 감정 분석 결과 제공
+
+감정 분류 항목
+
+* 기쁨 (Joy)
+* 슬픔 (Sadness)
+* 분노 (Anger)
+* 두려움 (Fear)
+* 놀람 (Surprise)
+* 혐오 (Disgust)
+* 중립 (Neutral)
+
+### AI 공감 메시지
+
+* 감정 분석 결과 기반 공감 메시지 제공
+* AI 코멘트 생성
+
+### 감정 결과 확인
+
+* AI 분석 결과 기반 감정 스탬프 제공
+* 감정 유형 시각화
+
+### 달력 조회
+
+* 일기 작성 날짜 표시
+* 특정 날짜 선택 시 해당 날짜의 일기 목록 조회
+
+
+### AI 분석 과정
+
+1. 일기 작성
+2. AI 서버 호출
+3. 로딩 모달 표시
+4. 감정 분석 결과 수신
+5. AI 코멘트 및 감정 스탬프 출력
+
+#### AI 분석 중
+
+![AI 로딩 모달](screenshots/ai-loading.png)
+
+#### AI 분석 결과
+
+![AI 결과](screenshots/ai-result.png)
+
+
+---
+
+## 화면 구성
+
+### 로그인
+
+![로그인](screenshots/login.png)
+
+* JWT 기반 로그인
+* 로그인 상태 유지
+
+### 회원가입
+
+![회원가입](screenshots/signup.png)
+
+* 사용자 계정 생성
+* 닉네임 및 계정 정보 입력
+
+### 홈
+
+![홈](screenshots/home.png)
+
+* 최근 작성한 일기 확인
+* AI 한마디 확인
+* 작성일 및 감정 정보 확인
+
+### 일기 작성
+
+![일기 작성](screenshots/write.png)
+
+* 일기 작성 및 저장
+* AI 감정 분석 결과 확인
+* AI 공감 메시지 확인
+
+### 일기 목록
+
+![일기 목록](screenshots/diary-list.png)
+
+* 작성한 일기 조회
+* 일기 상세 보기
+
+### 스탬프 달력
+
+![달력](screenshots/calendar.png)
+
+* 일기 작성 날짜 확인
+* 특정 날짜 선택 시 해당 날짜의 일기 목록 조회
+
+
+### AI 분석 결과
+
+![AI 결과](screenshots/ai-result.png)
+
+* 감정 분석 결과 확인
+* AI 공감 메시지 확인
+
+
+---
+
+## 담당 역할
+
+### Frontend
+
+* React 기반 화면 구현
+* React Router를 활용한 페이지 라우팅 구성
+* 백엔드 API 연동
+* JWT 기반 로그인 및 인증 처리
+* AI API 연동
+* 일기 CRUD 기능 구현
+* Vercel 배포 및 운영 환경 테스트
+
+### UI/UX
+
+* Figma를 활용한 초기 UI 설계
+* Stitch를 활용한 디자인 리디자인
+* 서비스 전체 UI 구현 및 개선
+* 레트로 감성의 핑크 테마 디자인 적용
+* 로그인 및 회원가입 화면 리디자인
+* 홈 화면 레이아웃 개선
+* 공용 AppModal 컴포넌트 설계 및 적용
+* AI 로딩 모달 및 결과 화면 UI 구현
+* 달력 및 감정 확인 화면 UI 개선
+* 사용자 흐름(UX) 개선
+
+
+---
+
+## 개발 과정
+
+1. Figma를 활용해 초기 UI 시안 제작
+2. React 기반 MVP 구현 및 배포
+3. 로그인 및 일기 CRUD 기능 연동
+4. Stitch를 활용한 UI 리디자인
+5. AI API 연동 및 결과 화면 구현
+6. 공용 모달 및 사용자 경험 개선
+7. 최종 UI 정리 및 배포
+
+---
+
+## 트러블 슈팅
+
+### 1. 작성 날짜와 달력 표시 불일치 문제
+
+#### 문제 상황
+
+사용자가 선택한 일기 작성 날짜와 달력에 표시되는 날짜가 서로 다른 문제가 발생하였다.
+
+#### 원인
+
+달력에서 날짜를 표시할 때 실제 작성 날짜보다 서버 생성 시각(createdAt)이 우선 사용되면서 날짜 정보가 일치하지 않았다.
+
+#### 해결 방법
+
+사용자가 선택한 작성 날짜(postDate)를 우선적으로 사용하도록 날짜 처리 로직을 수정하였다. 또한 달력에서도 실제 작성 날짜를 기준으로 일기 데이터를 조회하도록 개선하였다.
+
+---
+
+### 2. 일기가 없는 날짜도 클릭되는 문제
+
+#### 문제 상황
+
+스탬프 달력에서 실제 일기가 존재하지 않는 날짜도 클릭이 가능했으며, 이동 시 빈 화면이 표시되는 문제가 발생하였다.
+
+#### 원인
+
+날짜 활성화 여부를 실제 일기 데이터가 아닌 표시용 데이터 기준으로 판단하고 있었다.
+
+#### 해결 방법
+
+실제 일기 식별자(postId 등)가 존재하는 경우에만 활성화되도록 수정하였으며, 일기가 없는 날짜는 클릭할 수 없도록 처리하였다.
+
+---
+
+### 3. AI 분석 중 로딩 상태 미표시 문제
+
+#### 문제 상황
+
+일기 발행 후 AI 분석이 진행되는 동안 사용자에게 진행 상태가 표시되지 않아 서비스가 멈춘 것으로 오해할 수 있었다.
+
+#### 원인
+
+AI API 요청이 비동기로 처리되었지만 로딩 상태를 화면에 표시하지 않고 있었다.
+
+#### 해결 방법
+
+AI 분석 중에는 로딩 모달을 표시하고, 중복 요청을 방지하기 위해 버튼을 비활성화하여 사용자 경험을 개선하였다.
+
+---
+
+### 4. 공용 AppModal 적용
+
+#### 문제 상황
+
+로그인, 회원가입, 일기 등록 및 삭제 과정에서 브라우저 기본 alert와 confirm을 사용하여 UI 일관성이 떨어졌다.
+
+#### 원인
+
+각 기능에서 브라우저 기본 팝업을 개별적으로 사용하고 있었다.
+
+#### 해결 방법
+
+공용 AppModal 컴포넌트를 제작하여 로그인, 회원가입, 일기 등록 및 삭제 등 주요 기능에 적용하였다. 이를 통해 서비스 전반의 디자인 통일성과 사용자 경험을 개선하였다.
+
+---
+
+### 5. AI 감정 체계 통일
+
+#### 문제 상황
+
+AI 서버와 프론트엔드가 사용하는 감정 분류 체계가 달라 UI 표시 및 데이터 처리에 어려움이 있었다.
+
+#### 원인
+
+초기 AI 모델의 감정 분류 기준과 서비스에서 사용하는 감정 표현 방식이 일치하지 않았다.
+
+#### 해결 방법
+
+기쁨(Joy), 슬픔(Sadness), 분노(Anger), 두려움(Fear), 놀람(Surprise), 혐오(Disgust), 중립(Neutral)의 7개 감정 체계로 통일하여 AI 응답과 UI가 일관되게 동작하도록 구현하였다.
+
+
+---
+
+## 프로젝트를 통해 배운 점
+
+이번 프로젝트를 통해 React 기반 SPA 개발과 백엔드 API 연동 과정을 직접 경험할 수 있었다.
+
+특히 Figma를 활용한 UI 설계와 Stitch를 활용한 디자인 리디자인 과정을 경험하며, 디자인 도구를 활용해 아이디어를 시각화하고 실제 서비스 화면으로 구현하는 방법을 배울 수 있었다.
+
+또한 백엔드 API와 JWT 인증을 연동하고, AI 감정 분석 서버와 통신하는 기능을 구현하면서 프론트엔드와 외부 서비스 간의 데이터 흐름에 대한 이해를 높일 수 있었다.
+
+Git과 GitHub를 활용한 브랜치 관리, 협업 및 버전 관리 경험을 쌓을 수 있었으며, Vercel 배포를 통해 실제 서비스 운영 환경과 배포 과정을 경험할 수 있었다.
+
+무엇보다도 먼저 기본 UI와 기능을 구현한 뒤 API를 연동하고, 이후 디자인과 사용자 경험을 개선하는 방식으로 프로젝트를 발전시켜 나가면서 실제 서비스 개발 과정에 대한 이해를 높일 수 있었다. 또한 사용자 관점에서 화면 구성과 흐름을 고민하며 UI/UX 설계 역량을 키울 수 있었다.
+
+
+---
+
+
+
+## 폰트 출처
+
+- 네이버 나눔글꼴
+
+## 이미지 출처
+
+- https://www.pexels.com/ko-kr/photo/16371565/
