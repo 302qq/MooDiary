@@ -1,5 +1,32 @@
 ﻿import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {
+  formatDiaryDateForAi,
+  requestDiaryAi,
+  saveDiaryAiResult,
+} from "../services/aiDiaryService";
+
+const POST_API_URL = import.meta.env.DEV
+  ? "http://15.165.95.129:8080/post"
+  : "/api/post";
+
+const logCreatedPostDate = async (postId, token) => {
+  if (!import.meta.env.DEV || !postId) return;
+
+  try {
+    const response = await fetch(`${POST_API_URL}/${postId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+    console.log("생성 직후 게시글 postDate:", data?.postDate);
+  } catch (error) {
+    console.warn("생성 직후 게시글 postDate 확인 실패:", error);
+  }
+};
 
 function WriteDiaryPage() {
   const navigate = useNavigate();
@@ -24,16 +51,22 @@ function WriteDiaryPage() {
     }
 
     try {
-      const response = await fetch("/api/post", {
+      const postPayload = {
+        title: title,
+        content: content,
+      };
+
+      if (selectedDate) {
+        postPayload.postDate = selectedDate;
+      }
+
+      const response = await fetch(POST_API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          title: title,
-          content: content,
-        }),
+        body: JSON.stringify(postPayload),
       });
 
       console.log("게시글 등록 상태코드:", response.status);
@@ -44,11 +77,31 @@ function WriteDiaryPage() {
         throw new Error("게시글 등록 API 요청 실패");
       }
 
-      const postId = await response.text();
+      const postId = (await response.text()).trim();
       console.log("생성된 게시글 ID:", postId);
+      await logCreatedPostDate(postId, token);
+      const diaryId = postId || String(Date.now());
+
+      let aiResult = null;
+      const diaryDateForAi = formatDiaryDateForAi(selectedDate);
+
+      try {
+        aiResult = await requestDiaryAi({
+          userText: content,
+          diaryDate: diaryDateForAi,
+        });
+        aiResult = {
+          ...aiResult,
+          diaryTitle: title,
+          diaryContent: content,
+        };
+        saveDiaryAiResult(diaryId, aiResult);
+      } catch (aiError) {
+        console.error("AI 응답 생성 실패:", aiError);
+      }
 
       const newDiary = {
-        id: postId || Date.now(),
+        id: diaryId,
         date: selectedDate,
         title,
         content,
@@ -64,7 +117,11 @@ function WriteDiaryPage() {
       setAiComment(newDiary.ai);
 
       alert("일기가 등록되었습니다.");
-      navigate("/diaries");
+      navigate("/ai-result", {
+        state: {
+          aiResult,
+        },
+      });
     } catch (error) {
       console.error("게시글 등록 실패:", error);
       alert("서버 등록에 실패했습니다. 로그 상태 또는 백엔드 서버를 확인해주세요.");

@@ -5,10 +5,13 @@ function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
+  const signupUrl = import.meta.env.DEV
+    ? "http://15.165.95.129:8080/auth/signup"
+    : "/api/auth/signup";
 
   const handleSignup = async () => {
     try {
-      const response = await fetch("/api/auth/signup", {
+      const response = await fetch(signupUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

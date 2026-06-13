@@ -1,6 +1,25 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
+const LOGIN_API_URL = import.meta.env.DEV
+  ? "http://15.165.95.129:8080/auth/login"
+  : "/api/auth/login";
+
+const readResponseBody = async (response) => {
+  const text = await response.text();
+
+  if (!text) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(text);
+  } catch (error) {
+    console.warn("로그인 응답을 JSON으로 해석하지 못했습니다.", error);
+    return text;
+  }
+};
+
 function LoginPage() {
   const navigate = useNavigate();
 
@@ -9,7 +28,7 @@ function LoginPage() {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch(LOGIN_API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -20,23 +39,31 @@ function LoginPage() {
         }),
       });
 
-      const data = await response.json();
+      const data = await readResponseBody(response);
+      console.log("로그인 요청 URL:", LOGIN_API_URL);
       console.log("로그인 상태코드:", response.status);
-      console.log("로그인 응답:", data);
 
       if (!response.ok) {
-        alert("로그인 실패");
+        alert("로그인에 실패했습니다.");
+        return;
+      }
+
+      if (!data?.accessToken) {
+        alert("로그인 응답에 토큰이 없습니다.");
         return;
       }
 
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("userId", data.userId);
+      if (data.nickname) {
+        localStorage.setItem("nickname", data.nickname);
+      }
 
       alert("로그인 성공!");
       navigate("/");
     } catch (error) {
-      console.error("로그인 에러:", error);
-      alert("로그인 중 오류 발생");
+      console.error("로그인 오류:", error);
+      alert("로그인 중 오류가 발생했습니다.");
     }
   };
 
@@ -83,7 +110,7 @@ function LoginPage() {
         </form>
 
         <div className="auth-links">
-          <span className="auth-muted-link">아이디, 비밀번호 찾기</span>
+          <span className="auth-muted-link">아이디 · 비밀번호 찾기</span>
           <Link to="/signup">회원가입</Link>
         </div>
       </div>

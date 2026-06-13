@@ -1,7 +1,27 @@
 ﻿import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import {
+  getDiaryAiResultByDiary,
+  getDiaryAiResult,
+  getEmotionStamp,
+} from "../services/aiDiaryService";
+import { getDiaryDisplayDate } from "../utils/diaryDisplay";
 
 const mockDiaries = [];
+
+const POST_LIST_API_URL = import.meta.env.DEV
+  ? "http://15.165.95.129:8080/post?sort=postDate,desc"
+  : "/api/post?sort=postDate,desc";
+
+const getPostDeleteApiUrl = (postId) =>
+  import.meta.env.DEV
+    ? `http://15.165.95.129:8080/post/${postId}`
+    : `/api/post/${postId}`;
+
+const getPostUpdateApiUrl = (postId) =>
+  import.meta.env.DEV
+    ? `http://15.165.95.129:8080/post/${postId}`
+    : `/api/post/${postId}`;
 
 function DiaryListPage() {
   const [diaries, setDiaries] = useState([]);
@@ -15,6 +35,7 @@ function DiaryListPage() {
   const params = new URLSearchParams(location.search);
   const selectedDate = params.get("date");
   const selectedPostId = params.get("postId");
+  const routeAiResult = location.state?.aiResult || null;
 
   const fetchDiaries = async () => {
     const token = localStorage.getItem("accessToken");
@@ -25,7 +46,7 @@ function DiaryListPage() {
     }
 
     try {
-      const response = await fetch("/api/post", {
+      const response = await fetch(POST_LIST_API_URL, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -41,16 +62,32 @@ function DiaryListPage() {
       }
 
       const data = await response.json();
-      console.log("게시글 목록 응답:", data);
 
-      const serverDiaries = data.map((post) => ({
-        id: post.id,
-        title: post.title,
-        date: post.createdAt ? post.createdAt.slice(0, 10) : "날짜 없음",
-        content: post.content,
-        ai: post.ai || "AI가 건넨 한마디...",
-        isMock: false,
-      }));
+      const serverDiaries = data.map((post) => {
+        const cachedAiResult =
+          String(post.id) === String(selectedPostId) && routeAiResult
+            ? routeAiResult
+            : getDiaryAiResult(post.id) ||
+              getDiaryAiResultByDiary({
+                title: post.title,
+                content: post.content,
+              });
+
+        return {
+          id: post.id,
+          title: post.title,
+          date: getDiaryDisplayDate(post, cachedAiResult),
+          content: post.content,
+          ai:
+            cachedAiResult?.homeComment ||
+            post.homeComment ||
+            post.ai ||
+            "AI가 건넨 한마디...",
+          emotion: cachedAiResult?.emotion || post.emotion || "neutral",
+          homeComment: cachedAiResult?.homeComment || post.homeComment || "",
+          isMock: false,
+        };
+      });
 
       setDiaries(serverDiaries);
     } catch (error) {
@@ -122,7 +159,7 @@ function DiaryListPage() {
 
     try {
       const response = await fetch(
-        `/api/post/${selectedDiary.id}`,
+        getPostUpdateApiUrl(selectedDiary.id),
         {
           method: "PUT",
           headers: {
@@ -190,7 +227,7 @@ function DiaryListPage() {
 
     try {
       const response = await fetch(
-        `/api/post/${selectedDiary.id}`,
+        getPostDeleteApiUrl(selectedDiary.id),
         {
           method: "DELETE",
           headers: {
@@ -219,6 +256,10 @@ function DiaryListPage() {
     }
   };
 
+  const selectedEmotionStamp = selectedDiary
+    ? getEmotionStamp(selectedDiary.emotion)
+    : null;
+
   return (
     <div className="diary-view-page">
       <div className="diary-view-title">일기 보기</div>
@@ -227,10 +268,15 @@ function DiaryListPage() {
         <section className="diary-view-list-panel">
           <div className="diary-view-list-header">
             <div>
-              <h2>일기 목록</h2>
+              <h2>
+                <span className="diary-view-header-icon">📒</span>
+                일기 목록
+              </h2>
               <p>마음을 적어둔 하루를 다시 펼쳐보세요.</p>
             </div>
-            <span className="diary-view-count">{filteredDiaries.length}편</span>
+            <span className="diary-view-count">
+              총 {filteredDiaries.length}편
+            </span>
           </div>
 
           <div className="diary-view-list">
@@ -341,7 +387,14 @@ function DiaryListPage() {
                       <h3>AI 한마디</h3>
                     </div>
                     <div className="detail-ai-box">
-                      <div className="ai-avatar">💗</div>
+                      <div className="ai-stamp-wrap">
+                        <div className="ai-avatar">
+                          {selectedEmotionStamp.emoji}
+                        </div>
+                        <div className="ai-emotion-line">
+                          {selectedEmotionStamp.label}
+                        </div>
+                      </div>
                       <div className="ai-comment-box">{selectedDiary.ai}</div>
                     </div>
                   </section>
